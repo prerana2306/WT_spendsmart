@@ -6,33 +6,52 @@
 let incomeExpenseChart = null;
 let categoryChart = null;
 
-document.addEventListener('DOMContentLoaded', async () => {
-  requireAuth();
-  await loadDashboardData();
-  setupQuickActionModals();
-});
+// Safe DOM text setter
+function setElementText(id, text) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = text;
+    return true;
+  }
+  return false;
+}
+
+// Safe DOM HTML setter
+function setElementHTML(id, html) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.innerHTML = html;
+    return true;
+  }
+  return false;
+}
 
 async function loadDashboardData() {
   try {
     const res = await API.get('/smart/overview');
-    if (!res.success) return;
+    if (!res || !res.success || !res.data) {
+      console.warn('[SpendSmart Dashboard] Overview API returned empty or unsuccessful response:', res);
+      return;
+    }
 
     const data = res.data;
 
     // 1. Financial Summary Cards
     const cards = data.summaryCards;
-    document.getElementById('card-available-balance').textContent = formatCurrency(cards.availableBalance);
-    document.getElementById('card-total-income').textContent = formatCurrency(cards.totalIncome);
-    document.getElementById('card-total-expenses').textContent = formatCurrency(cards.totalExpenses);
-    document.getElementById('card-total-savings').textContent = formatCurrency(cards.totalSavings);
+    if (cards) {
+      setElementText('card-available-balance', formatCurrency(cards.availableBalance));
+      setElementText('card-total-income', formatCurrency(cards.totalIncome));
+      setElementText('card-total-expenses', formatCurrency(cards.totalExpenses));
+      setElementText('card-total-savings', formatCurrency(cards.totalSavings));
+    }
 
     // 2. Daily Spending Limit Guardrail
     const daily = data.dailyLimit;
     if (daily) {
-      document.getElementById('daily-limit-amount').textContent = formatCurrency(daily.limit);
-      document.getElementById('daily-spent-amount').textContent = formatCurrency(daily.spentToday);
-      document.getElementById('daily-remaining-amount').textContent = formatCurrency(daily.remainingToday);
-      document.getElementById('daily-remaining-days').textContent = `${daily.remainingDays} days left in month`;
+      setElementText('daily-limit-amount', formatCurrency(daily.limit));
+      setElementText('daily-spent-amount', formatCurrency(daily.spentToday));
+      setElementText('daily-remaining-amount', formatCurrency(daily.remainingToday));
+      setElementText('daily-remaining-days', `${daily.remainingDays} days left in month`);
 
       const warningEl = document.getElementById('daily-limit-warning');
       if (warningEl) {
@@ -47,14 +66,14 @@ async function loadDashboardData() {
     // 3. Monthly Budget Progress
     const b = data.budget;
     if (b) {
-      document.getElementById('budget-total-limit').textContent = formatCurrency(b.overallLimit);
-      document.getElementById('budget-spent-val').textContent = formatCurrency(b.spent);
-      document.getElementById('budget-remaining-val').textContent = formatCurrency(b.remaining);
-      document.getElementById('budget-percentage-label').textContent = `${b.usagePercentage}% utilized`;
+      setElementText('budget-total-limit', formatCurrency(b.overallLimit));
+      setElementText('budget-spent-val', formatCurrency(b.spent));
+      setElementText('budget-remaining-val', formatCurrency(b.remaining));
+      setElementText('budget-percentage-label', `${b.usagePercentage}% utilized`);
 
       const fill = document.getElementById('budget-progress-fill');
       if (fill) {
-        fill.style.width = `${Math.min(100, b.usagePercentage)}%`;
+        fill.style.width = `${Math.min(100, b.usagePercentage || 0)}%`;
         fill.className = 'progress-bar-fill';
         if (b.usagePercentage > 90) fill.classList.add('danger');
         else if (b.usagePercentage > 75) fill.classList.add('warning');
@@ -64,9 +83,14 @@ async function loadDashboardData() {
     // 4. Financial Health Score
     const h = data.healthScore;
     if (h) {
-      document.getElementById('health-score-val').textContent = h.score;
-      document.getElementById('health-score-category').textContent = h.category;
-      document.getElementById('health-score-tip').textContent = h.suggestions[0] || 'Keep up the good financial habits!';
+      setElementText('health-score-val', h.score);
+      setElementText('health-score-category', h.category);
+      if (h.suggestions && h.suggestions.length > 0) {
+        setElementText('health-score-tip', h.suggestions[0]);
+      } else {
+        setElementText('health-score-tip', 'Keep up the good financial habits!');
+      }
+
       const badge = document.getElementById('health-circle-badge');
       if (badge) {
         badge.style.borderColor = h.badgeColor || '#294C3A';
@@ -74,21 +98,35 @@ async function loadDashboardData() {
     }
 
     // 5. Recent Transactions
-    renderRecentTransactions(data.recentTransactions);
+    if (data.recentTransactions) {
+      renderRecentTransactions(data.recentTransactions);
+    }
 
     // 6. Upcoming Reminders
-    renderUpcomingBills(data.upcomingBills);
+    if (data.upcomingBills) {
+      renderUpcomingBills(data.upcomingBills);
+    }
 
     // 7. Active Savings Goals Preview
-    renderGoalsPreview(data.goals);
+    if (data.goals) {
+      renderGoalsPreview(data.goals);
+    }
 
     // 8. Load & Render Charts
-    await initDashboardCharts();
+    try {
+      await initDashboardCharts();
+    } catch (chartErr) {
+      console.error('[SpendSmart Dashboard] Chart rendering error:', chartErr);
+    }
 
-    if (window.lucide) window.lucide.createIcons();
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
   } catch (err) {
     console.error('Failed to load dashboard data:', err);
-    showToast('Failed to sync dashboard data.', 'danger');
+    if (window.showToast) {
+      showToast('Failed to sync dashboard data.', 'danger');
+    }
   }
 }
 
@@ -184,14 +222,16 @@ function renderGoalsPreview(goals) {
 }
 
 async function initDashboardCharts() {
-  if (typeof Chart === 'undefined') return;
+  if (typeof Chart === 'undefined') {
+    console.warn('[SpendSmart Dashboard] Chart.js is not loaded.');
+    return;
+  }
 
   try {
     // 1. Fetch Needs vs Wants & Category Breakdown
     const res = await API.get('/smart/needs-wants');
-    if (res.success && res.data) {
-      const nw = res.data.currentMonth;
-      const categories = res.data.categoryBreakdown;
+    if (res && res.success && res.data) {
+      const categories = res.data.categoryBreakdown || [];
 
       // Category Doughnut Chart
       const catCtx = document.getElementById('categoryPieChart');
@@ -235,7 +275,7 @@ async function initDashboardCharts() {
       }
     }
 
-    // 2. Income vs Expense 6-Month Comparison Bar Chart
+    // 2. Income vs Expense Comparison Bar Chart
     const incExpCtx = document.getElementById('incomeExpenseChart');
     if (incExpCtx) {
       if (incomeExpenseChart) incomeExpenseChart.destroy();
@@ -300,7 +340,7 @@ async function initDashboardCharts() {
       });
     }
   } catch (err) {
-    console.error('Chart init error:', err);
+    console.error('[SpendSmart Dashboard] Chart init error:', err);
   }
 }
 
@@ -310,14 +350,14 @@ function setupQuickActionModals() {
   if (addTxForm) {
     addTxForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const type = document.getElementById('tx-type').value;
-      const amount = document.getElementById('tx-amount').value;
-      const description = document.getElementById('tx-description').value;
-      const category = document.getElementById('tx-category').value;
-      const classification = document.getElementById('tx-classification').value;
-      const paymentMethod = document.getElementById('tx-payment-method').value;
-      const date = document.getElementById('tx-date').value;
-      const notes = document.getElementById('tx-notes').value;
+      const type = document.getElementById('tx-type')?.value || 'expense';
+      const amount = document.getElementById('tx-amount')?.value;
+      const description = document.getElementById('tx-description')?.value;
+      const category = document.getElementById('tx-category')?.value || 'Other';
+      const classification = document.getElementById('tx-classification')?.value || 'need';
+      const paymentMethod = document.getElementById('tx-payment-method')?.value || 'UPI';
+      const date = document.getElementById('tx-date')?.value;
+      const notes = document.getElementById('tx-notes')?.value;
 
       try {
         await API.post('/transactions', {
@@ -331,12 +371,16 @@ function setupQuickActionModals() {
           notes,
         });
 
-        showToast('Transaction added successfully!', 'success');
+        if (window.showToast) {
+          showToast('Transaction added successfully!', 'success');
+        }
         closeModal('add-tx-modal');
         addTxForm.reset();
         await loadDashboardData();
       } catch (err) {
-        showToast(err.message, 'danger');
+        if (window.showToast) {
+          showToast(err.message, 'danger');
+        }
       }
     });
   }
@@ -346,16 +390,16 @@ function setupQuickActionModals() {
   if (purchaseForm) {
     purchaseForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const productName = document.getElementById('purchase-item-name').value;
-      const amount = document.getElementById('purchase-item-price').value;
+      const productName = document.getElementById('purchase-item-name')?.value || 'Item';
+      const amount = document.getElementById('purchase-item-price')?.value;
 
       try {
         const res = await API.post('/smart/purchase-check', { productName, amount });
         const evalData = res.data;
 
         const resultBox = document.getElementById('purchase-result-box');
-        if (resultBox) {
-          resultBox.className = `badge badge-${evalData.badgeClass}`;
+        if (resultBox && evalData) {
+          resultBox.className = `badge badge-${evalData.badgeClass || 'info'}`;
           resultBox.style.display = 'block';
           resultBox.style.padding = '14px';
           resultBox.style.borderRadius = '10px';
@@ -367,7 +411,9 @@ function setupQuickActionModals() {
           `;
         }
       } catch (err) {
-        showToast(err.message, 'danger');
+        if (window.showToast) {
+          showToast(err.message, 'danger');
+        }
       }
     });
   }
@@ -400,6 +446,20 @@ function escapeHTML(str) {
     "'": '&#39;',
     '"': '&quot;'
   }[tag] || tag));
+}
+
+function initDashboard() {
+  if (window.requireAuth) {
+    requireAuth();
+  }
+  loadDashboardData();
+  setupQuickActionModals();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDashboard);
+} else {
+  initDashboard();
 }
 
 window.loadDashboardData = loadDashboardData;
