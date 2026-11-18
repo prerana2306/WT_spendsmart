@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpendSmart — Smart Money Management for Students</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="background-color: var(--bg-primary);">
+  <!-- Top Navigation Bar -->
+  <header style="padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; max-width: 1360px; margin: 0 auto; width: 100%;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="brand-logo-icon">₹</div>
+      <div>
+        <h2 style="font-size: 22px; font-weight: 800; color: var(--text-primary); line-height: 1;">SpendSmart</h2>
+        <span style="font-size: 11px; font-weight: 700; color: var(--sage-green); letter-spacing: 0.04em; text-transform: uppercase;">Student Fintech</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <button class="header-action-btn" id="theme-toggle-btn" title="Toggle Theme">
+        <i data-lucide="moon" id="theme-icon"></i>
+      </button>
+      <a href="/login.html" class="btn btn-outline btn-sm">Log In</a>
+      <a href="/register.html" class="btn btn-primary btn-sm">Get Started Free</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section style="padding: 60px 24px 80px; text-align: center; max-width: 900px; margin: 0 auto;">
+    <div class="badge badge-success" style="padding: 6px 14px; font-size: 13px; margin-bottom: 20px;">
+      🎓 Built Specifically for College & University Students
+    </div>
+    <h1 style="font-size: 52px; font-weight: 800; line-height: 1.15; color: var(--text-primary); margin-bottom: 20px;">
+      Your Money. <span style="color: var(--sage-green);">Your Choices.</span>
+    </h1>
+    <p style="font-size: 19px; color: var(--text-secondary); max-width: 680px; margin: 0 auto 36px; line-height: 1.6;">
+      Track better. Save smarter. Enjoy more. Take total control of pocket money, hostel allowances, and gig earnings with intelligent student-focused budgeting.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 48px;">
+      <a href="/register.html" class="btn btn-primary" style="padding: 0 28px; font-size: 15px;">
+        <i data-lucide="sparkles"></i> Create Student Account
+      </a>
+      <a href="/login.html" class="btn btn-secondary" style="padding: 0 24px; font-size: 15px;">
+        <i data-lucide="play-circle"></i> Try Demo Student Account
+      </a>
+    </div>
+
+    <!-- Live Preview Card -->
+    <div class="card" style="padding: 32px; text-align: left; box-shadow: var(--shadow-lg); border: 2px solid var(--sage-green);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800;">Real Student Financial Engine</h3>
+          <p style="font-size: 13px; color: var(--text-secondary);">Grounded calculations with MongoDB persistence & rule-based intelligence</p>
+        </div>
+        <span class="badge badge-need">Live Architecture</span>
+      </div>
+
+      <div class="summary-grid" style="margin-bottom: 0;">
+        <div class="summary-card balance">
+          <div class="summary-top">
+            <span class="summary-label">Available Balance</span>
+            <div class="summary-icon-box"><i data-lucide="wallet"></i></div>
+          </div>
+          <div class="summary-amount">₹14,182</div>
+          <div class="summary-subtext" style="color: var(--sage-green);">Active student surplus</div>
+        </div>
+
+        <div class="summary-card income">
+          <div class="summary-top">
+            <span class="summary-label">Total Income</span>
+            <div class="summary-icon-box"><i data-lucide="arrow-down-left"></i></div>
+          </div>
+          <div class="summary-amount">₹18,000</div>
+          <div class="summary-subtext">Allowance & Freelance</div>
+        </div>
+
+        <div class="summary-card expense">
+          <div class="summary-top">
+            <span class="summary-label">Total Expenses</span>
+            <div class="summary-icon-box"><i data-lucide="arrow-up-right"></i></div>
+          </div>
+          <div class="summary-amount">₹11,718</div>
+          <div class="summary-subtext">Needs vs Wants tracked</div>
+        </div>
+
+        <div class="summary-card savings">
+          <div class="summary-top">
+            <span class="summary-label">Total Savings</span>
+            <div class="summary-icon-box"><i data-lucide="piggy-bank"></i></div>
+          </div>
+          <div class="summary-amount">₹46,000</div>
+          <div class="summary-subtext" style="color: #9A7720;">3 goals funded</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core 10 Features Grid -->
+  <section style="background-color: var(--bg-surface); padding: 80px 24px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 50px;">
+        <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 12px;">Engineered for College Life</h2>
+        <p style="font-size: 16px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+          Not just basic CRUD. SpendSmart includes 10 purpose-built fintech features designed to solve genuine student money struggles.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: var(--mint); color: var(--pine-green); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="bot"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">AI Smart Saving Assistant</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Ask questions like "Can I afford a ₹2,500 jacket?" or "How much can I spend this week?" and receive answers computed against your live balance and upcoming obligations.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #FCE8E6; color: #B54D41; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="pie-chart"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Needs vs Wants Analyzer</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Auto-classifies food, transport, and tuition as Needs while spotlighting impulse food delivery and shopping as Wants with interactive 50/30/20 recommendations.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #FDF3D8; color: #9A7720; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="calculator"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Purchase Decision Calculator</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Tests item affordability while reserving cushion for upcoming semester fees and essential bills, calculating an exact safe waiting period if risky.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: var(--accent-info-bg); color: var(--accent-info); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="activity"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Financial Health Score</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Transparent 100-point score evaluating savings consistency, budget adherence, spending velocity, needs/wants ratio, and goal progress with actionable tips.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #E8EFE9; color: var(--pine-green); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="shield-alert"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Expense Anomaly Detection</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Detects statistical spending surges (e.g. food spending up 100% vs historical 30-day baseline) and single outlier transactions without false alarms.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 24px;">
+          <div style="width: 44px; height: 44px; border-radius: 10px; background: #F5EAE4; color: #A6573C; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <i data-lucide="users"></i>
+          </div>
+          <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">Split Bills with Friends</h3>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">
+            Group expense splitting for hostel flatmates and dining outings with equal or custom shares, live balances (who owes whom), and recorded settlements.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding: 40px 24px; text-align: center; color: var(--text-secondary); font-size: 13.5px;">
+    <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">SpendSmart — Smart Money Management for Students</p>
+    <p>Track better. Save smarter. Enjoy more.</p>
+  </footer>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-label">Main Navigation</li>
+        <li class="sidebar-item">
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+        </li>
+        <li class="sidebar-item active">
+          <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-item">
+          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+        </div>
+        <div class="sidebar-item">
+          <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle"><i data-lucide="menu"></i></button>
+          <div class="header-title-box">
+            <h1>Transaction Management</h1>
+            <p>Log, search, categorize and filter every rupee of your student finances.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="header-action-btn" id="theme-toggle-btn"><i data-lucide="moon" id="theme-icon"></i></button>
+          <a href="/profile.html" class="user-profile-pill">
+            <div class="user-avatar-circle">A</div>
+            <span class="user-name-label">Student</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="page-body">
+        <!-- Action Header & Stats Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+          <div style="display: flex; gap: 18px; align-items: baseline;">
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary);">Filtered Income</span>
+              <div style="font-size: 20px; font-weight: 800; color: var(--sage-green);" id="summary-filtered-income">₹0</div>
+            </div>
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary);">Filtered Expenses</span>
+              <div style="font-size: 20px; font-weight: 800; color: var(--muted-coral);" id="summary-filtered-expense">₹0</div>
+            </div>
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary);">Net Difference</span>
+              <div style="font-size: 20px; font-weight: 800; color: var(--text-primary);" id="summary-filtered-balance">₹0</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-outline btn-sm" id="export-csv-btn">
+              <i data-lucide="download"></i> Export CSV
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openNewTransactionModal()">
+              <i data-lucide="plus"></i> Add Transaction
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls Card -->
+        <div class="card" style="padding: 18px; margin-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Search</label>
+              <input type="text" id="filter-search" class="form-input" placeholder="Search description...">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Category</label>
+              <select id="filter-category" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Bills">Bills</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Hostel">Hostel</option>
+                <option value="Personal Care">Personal Care</option>
+                <option value="Allowance">Allowance</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Type</label>
+              <select id="filter-type" class="form-select">
+                <option value="">All Types</option>
+                <option value="expense">Expenses Only</option>
+                <option value="income">Income Only</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Classification</label>
+              <select id="filter-classification" class="form-select">
+                <option value="">Needs & Wants</option>
+                <option value="need">Needs (Essential)</option>
+                <option value="want">Wants (Discretionary)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">From Date</label>
+              <input type="date" id="filter-start-date" class="form-input">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">To Date</label>
+              <input type="date" id="filter-end-date" class="form-input">
+            </div>
+
+            <div>
+              <button class="btn btn-outline w-full" id="reset-filters-btn" style="height: 44px;">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Table Card -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+              <thead>
+                <tr style="background: var(--bg-surface-secondary); border-bottom: 1px solid var(--border-color); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary);">
+                  <th style="padding: 14px 18px;">Date</th>
+                  <th style="padding: 14px 18px;">Description</th>
+                  <th style="padding: 14px 18px;">Category</th>
+                  <th style="padding: 14px 18px;">Need / Want</th>
+                  <th style="padding: 14px 18px;">Payment</th>
+                  <th style="padding: 14px 18px;">Amount</th>
+                  <th style="padding: 14px 18px;">Notes</th>
+                  <th style="padding: 14px 18px; width: 100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transactions-table-body">
+                <tr><td colspan="8" style="padding: 30px; text-align: center; color: var(--text-secondary);">Loading records...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-bottom-nav">
+      <a href="/dashboard.html" class="mobile-nav-item"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+      <a href="/transactions.html" class="mobile-nav-item active"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/assistant.html" class="mobile-nav-item"><i data-lucide="sparkles"></i><span>Assistant</span></a>
+      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
+      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+    </nav>
+  </div>
+
+  <!-- Add/Edit Transaction Modal -->
+  <div class="modal-overlay" id="transaction-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="transaction-modal-title">Add Transaction</h3>
+        <button class="modal-close-btn" onclick="closeModal('transaction-modal')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="transaction-form">
+        <input type="hidden" id="tx-edit-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Transaction Type</label>
+            <select id="tx-input-type" class="form-select">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Amount (INR ₹)</label>
+            <input type="number" step="0.01" id="tx-input-amount" class="form-input" placeholder="e.g. 350" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" id="tx-input-desc" class="form-input" placeholder="e.g. Metro pass recharge / College canteen" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="tx-input-category" class="form-select">
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Bills">Bills</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Hostel">Hostel</option>
+              <option value="Personal Care">Personal Care</option>
+              <option value="Allowance">Allowance</option>
+              <option value="Salary">Salary</option>
+              <option value="Freelance">Freelance</option>
+              <option value="Scholarship">Scholarship</option>
+              <option value="Gift">Gift</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Classification (Needs vs Wants)</label>
+            <select id="tx-input-classification" class="form-select">
+              <option value="need">Need (Essential)</option>
+              <option value="want">Want (Non-essential / Discretionary)</option>
+            </select>
+            <div class="form-hint">You can manually change this anytime to adjust your health score.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select id="tx-input-payment" class="form-select">
+              <option value="UPI">UPI</option>
+              <option value="Cash">Cash</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Net Banking">Net Banking</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="tx-input-date" class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes (Optional)</label>
+            <textarea id="tx-input-notes" class="form-textarea" placeholder="Add receipt notes, friends tagged, or items bought..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('transaction-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/transactions.js"></script>
+</body>
+</html>

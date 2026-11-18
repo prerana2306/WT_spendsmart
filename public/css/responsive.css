@@ -1,0 +1,132 @@
+/* SpendSmart Responsive Breakpoints */
+
+/* Tablet (768px – 1023px) */
+@media (max-width: 1024px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-body {
+    padding: 20px;
+  }
+
+  .option-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Devices (<= 767px) */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 95;
+    display: none;
+  }
+
+  .sidebar-backdrop.active {
+    display: block;
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+    padding-bottom: 72px; /* space for mobile bottom nav */
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  .top-header {
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  .header-search {
+    display: none; /* Can be opened via search button if needed */
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .page-body {
+    padding: 16px 14px;
+  }
+
+  .auth-sidebar {
+    display: none;
+  }
+
+  .auth-main {
+    padding: 20px 16px;
+  }
+
+  .auth-card {
+    padding: 24px 20px;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day-cell {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .cal-day-num {
+    font-size: 11px;
+  }
+
+  .cal-summary-tag {
+    display: none; /* preserve space, show dots instead */
+  }
+
+  .assistant-chat-container {
+    height: calc(100vh - 140px);
+  }
+
+  .chat-bubble {
+    max-width: 90%;
+  }
+
+  .modal-card {
+    max-width: 100%;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 375px) {
+  .summary-amount {
+    font-size: 22px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 0 14px;
+  }
+}

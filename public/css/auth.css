@@ -1,0 +1,322 @@
+/* SpendSmart Auth & Onboarding Styling */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--bg-primary);
+}
+
+.auth-sidebar {
+  flex: 1;
+  background-color: var(--pine-green);
+  color: #FFFFFF;
+  padding: 60px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-sidebar::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107, 155, 123, 0.4), transparent 70%);
+  pointer-events: none;
+}
+
+.auth-sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(182, 201, 155, 0.3), transparent 70%);
+  pointer-events: none;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.auth-hero-content {
+  z-index: 2;
+  max-width: 440px;
+}
+
+.auth-hero-content h1 {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+}
+
+.auth-hero-content p {
+  font-size: 16px;
+  color: var(--mint);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.auth-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #E8EFEA;
+}
+
+.auth-feature-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(182, 201, 155, 0.25);
+  color: var(--soft-olive);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.auth-footer {
+  font-size: 13px;
+  color: var(--sidebar-text-muted);
+  z-index: 2;
+}
+
+/* Auth Card Side */
+.auth-main {
+  flex: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 36px;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-card-header {
+  margin-bottom: 26px;
+  text-align: left;
+}
+
+.auth-card-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.auth-card-header p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.demo-account-banner {
+  background: linear-gradient(135deg, rgba(107, 155, 123, 0.12), rgba(182, 201, 155, 0.16));
+  border: 1px dashed var(--sage-green);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-banner-text h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.demo-banner-text p {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.password-input-wrap {
+  position: relative;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* Password Strength Meter */
+.strength-meter {
+  height: 4px;
+  width: 100%;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.strength-meter-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strength-meter-fill.weak { width: 33%; background-color: var(--muted-coral); }
+.strength-meter-fill.medium { width: 66%; background-color: var(--butter-yellow); }
+.strength-meter-fill.strong { width: 100%; background-color: var(--sage-green); }
+
+.strength-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  text-align: right;
+}
+
+/* Multi-Step Onboarding Wizard */
+.onboarding-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+}
+
+.onboarding-header {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+}
+
+.onboarding-progress-steps {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--bg-surface-secondary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.step-indicator.active .step-circle {
+  background-color: var(--pine-green);
+  color: #FFFFFF;
+  border-color: var(--pine-green);
+}
+
+.step-indicator.completed .step-circle {
+  background-color: var(--sage-green);
+  color: #FFFFFF;
+  border-color: var(--sage-green);
+}
+
+.onboarding-content-card {
+  max-width: 620px;
+  margin: 40px auto;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+}
+
+.option-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.option-select-card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background-color: var(--bg-surface);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.option-select-card:hover {
+  border-color: var(--sage-green);
+  background-color: var(--bg-surface-secondary);
+}
+
+.option-select-card.selected {
+  border-color: var(--pine-green);
+  background-color: var(--mint);
+  color: var(--pine-green);
+  font-weight: 600;
+}
+
+[data-theme='dark'] .option-select-card.selected {
+  background-color: #2F4135;
+  color: #FFFFFF;
+}
+
+.option-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--bg-surface-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}

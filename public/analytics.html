@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insights & Analytics — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-label">Main Navigation</li>
+        <li class="sidebar-item">
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
+        </li>
+        <li class="sidebar-item active">
+          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-item">
+          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+        </div>
+        <div class="sidebar-item">
+          <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle"><i data-lucide="menu"></i></button>
+          <div class="header-title-box">
+            <h1>Financial Insights & Analytics</h1>
+            <p>Understand your money behavior through data intelligence and behavioral scoring.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn btn-sm btn-outline" onclick="printFinancialReport()">
+            <i data-lucide="printer"></i> Print Financial Report
+          </button>
+          <button class="header-action-btn" id="theme-toggle-btn"><i data-lucide="moon" id="theme-icon"></i></button>
+          <a href="/profile.html" class="user-profile-pill">
+            <div class="user-avatar-circle">A</div>
+            <span class="user-name-label">Student</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="page-body">
+        <!-- Top Row: Financial Health Score Breakdown (FEATURE 5) -->
+        <div class="card" style="margin-bottom: 24px; padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <span class="badge badge-need" style="margin-bottom: 6px;">Feature 5: Transparent Scoring</span>
+              <h2 style="font-size: 24px; font-weight: 800;">Student Financial Health Score</h2>
+              <p style="font-size: 13.5px; color: var(--text-secondary);">Calculated across 5 weighted pillars of real student financial records.</p>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 10px;">
+              <span style="font-size: 44px; font-weight: 800; color: var(--pine-green); font-family: var(--font-heading);" id="analytics-health-score">0</span>
+              <span style="font-size: 18px; color: var(--text-secondary);">/ 100</span>
+              <span class="badge badge-success" id="analytics-health-category" style="font-size: 14px; padding: 6px 12px;">Good</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 32px; align-items: start;">
+            <!-- 5 Pillar Component Bars -->
+            <div>
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary);">Pillar Evaluation</h4>
+              <div id="health-components-list"></div>
+            </div>
+
+            <!-- Actionable Recommendations -->
+            <div style="background: var(--bg-surface-secondary); padding: 20px; border-radius: 14px;">
+              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="lightbulb" style="color: var(--butter-yellow);"></i> Recommended Improvements
+              </h4>
+              <div id="health-suggestions-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Row: FEATURE 2 (Needs vs Wants Analyzer) & FEATURE 4 (Anomaly Detection) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+          <!-- FEATURE 2: Needs vs Wants Analyzer Card -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="badge badge-info" style="margin-bottom: 4px;">Feature 2: Behavioral Split</span>
+                <h3 class="card-title"><i data-lucide="pie-chart"></i> Needs vs Wants Analyzer</h3>
+                <div class="card-subtitle">50/30/20 student budgeting guideline</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; text-align: center; margin: 12px 0 16px; background: var(--bg-surface-secondary); padding: 14px; border-radius: 12px;">
+              <div>
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Needs (Essentials)</div>
+                <div style="font-size: 22px; font-weight: 800; color: var(--sage-green);" id="needs-percentage-label">0%</div>
+                <div style="font-size: 12px; color: var(--text-secondary);" id="needs-amount-label">₹0</div>
+              </div>
+              <div style="border-right: 1px solid var(--border-color);"></div>
+              <div>
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Wants (Discretionary)</div>
+                <div style="font-size: 22px; font-weight: 800; color: var(--muted-coral);" id="wants-percentage-label">0%</div>
+                <div style="font-size: 12px; color: var(--text-secondary);" id="wants-amount-label">₹0</div>
+              </div>
+            </div>
+
+            <div style="height: 220px; position: relative; margin-bottom: 16px;">
+              <canvas id="analyticsNeedsWantsChart"></canvas>
+            </div>
+
+            <div id="needs-wants-recommendations"></div>
+          </div>
+
+          <!-- FEATURE 4: Expense Anomaly Detection Card -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="badge badge-warning" style="margin-bottom: 4px;">Feature 4: Pattern Detection</span>
+                <h3 class="card-title"><i data-lucide="alert-triangle"></i> Expense Anomaly Alerts</h3>
+                <div class="card-subtitle">Statistical comparison with your historical 30-day baseline</div>
+              </div>
+            </div>
+
+            <div id="anomalies-list-container" style="max-height: 480px; overflow-y: auto;">
+              <!-- Dynamically populated by analytics.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Row: Spending Trends by Category -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title"><i data-lucide="trending-up"></i> Category Breakdown & Spending Velocity</h3>
+              <div class="card-subtitle">Aggregated totals from your recorded transactions</div>
+            </div>
+          </div>
+          <div style="height: 280px; position: relative;">
+            <canvas id="analyticsTrendsChart"></canvas>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-bottom-nav">
+      <a href="/dashboard.html" class="mobile-nav-item"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/assistant.html" class="mobile-nav-item"><i data-lucide="sparkles"></i><span>Assistant</span></a>
+      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
+      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+    </nav>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/analytics.js"></script>
+</body>
+</html>

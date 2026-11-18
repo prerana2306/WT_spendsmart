@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Money Assistant — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-label">Main Navigation</li>
+        <li class="sidebar-item">
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
+        </li>
+        <li class="sidebar-item active">
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-item">
+          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+        </div>
+        <div class="sidebar-item">
+          <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle"><i data-lucide="menu"></i></button>
+          <div class="header-title-box">
+            <h1>Smart Money Assistant & Simulators</h1>
+            <p>Fintech intelligence analyzing your live MongoDB records, budgets and obligations.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="header-action-btn" id="theme-toggle-btn"><i data-lucide="moon" id="theme-icon"></i></button>
+          <a href="/profile.html" class="user-profile-pill">
+            <div class="user-avatar-circle">A</div>
+            <span class="user-name-label">Student</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="page-body">
+        <!-- 2-Column Layout: Chat on Left, Calculators on Right -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: start;">
+          <!-- FEATURE 1: AI Smart Saving Assistant Chat -->
+          <div class="assistant-chat-container">
+            <div class="assistant-chat-header">
+              <div class="assistant-avatar-badge">
+                <div class="assistant-avatar-icon">
+                  <i data-lucide="bot"></i>
+                </div>
+                <div>
+                  <h3 style="font-size: 16px; font-weight: 800; color: var(--text-primary);">SpendSmart Assistant</h3>
+                  <div style="font-size: 11.5px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px;">
+                    <span style="width: 7px; height: 7px; border-radius: 50%; background-color: var(--sage-green);"></span>
+                    Active Financial Calculation Engine
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-need">Feature 1</span>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="assistant-messages-scroll" id="assistant-messages">
+              <div class="chat-bubble assistant">
+                <strong>Hello! I'm your SpendSmart Money Assistant. 🎓</strong><br><br>
+                I analyze your actual income, expenses, monthly budget, and upcoming bill obligations to answer financial questions accurately.<br><br>
+                Try asking one of the quick questions below, or type your own question!
+              </div>
+            </div>
+
+            <!-- Quick Suggested Prompt Chips -->
+            <div class="quick-prompts-bar">
+              <button class="prompt-chip" data-query="Can I afford a purchase worth ₹2,500?">Can I afford ₹2,500?</button>
+              <button class="prompt-chip" data-query="How much money can I spend this week?">Safe spend this week?</button>
+              <button class="prompt-chip" data-query="Which category consumes most of my money?">Top spend category?</button>
+              <button class="prompt-chip" data-query="How much should I save this month?">How much to save?</button>
+              <button class="prompt-chip" data-query="How can I reduce my monthly expenses?">How to reduce expenses?</button>
+            </div>
+
+            <!-- Input Bar -->
+            <form id="assistant-query-form" class="assistant-input-bar">
+              <input type="text" id="assistant-query-input" placeholder="Ask your financial assistant a question..." autocomplete="off">
+              <button type="submit" class="btn btn-primary btn-icon" style="border-radius: 50%; width: 46px; height: 46px;">
+                <i data-lucide="send"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Right Column: FEATURE 3 (Purchase Calculator) & FEATURE 6 (Simulator) -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- FEATURE 3: Smart Purchase Decision Calculator -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <span class="badge badge-warning" style="margin-bottom: 4px;">Feature 3: Decision Guardrail</span>
+                  <h3 class="card-title"><i data-lucide="calculator"></i> Smart Purchase Calculator</h3>
+                  <div class="card-subtitle">Tests affordability considering upcoming bills and safety cushion</div>
+                </div>
+              </div>
+
+              <form id="purchase-calculator-form">
+                <div class="form-group">
+                  <label class="form-label">Item / Product Name</label>
+                  <input type="text" id="calc-item-name" class="form-input" placeholder="e.g. Sony WH-1000XM5 Headphones" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div class="form-group">
+                    <label class="form-label">Price (INR ₹)</label>
+                    <input type="number" id="calc-item-amount" class="form-input" placeholder="e.g. 4500" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select id="calc-item-category" class="form-select">
+                      <option value="Shopping">Shopping</option>
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Food">Food / Dining</option>
+                      <option value="Education">Education</option>
+                      <option value="Transport">Transport</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full">
+                  Evaluate Affordability
+                </button>
+              </form>
+
+              <div id="calc-decision-result" style="display: none; margin-top: 18px;"></div>
+            </div>
+
+            <!-- Proactive Recommendations Box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="sparkles"></i> Grounded Recommendations</h3>
+              </div>
+              <div id="assistant-recommendations-list">
+                <!-- Dynamically populated by assistant.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Width: FEATURE 6: What-If Savings Simulator -->
+        <div class="card" style="margin-top: 24px; padding: 28px;">
+          <div class="card-header" style="margin-bottom: 24px;">
+            <div>
+              <span class="badge badge-need" style="margin-bottom: 4px;">Feature 6: Interactive Projection</span>
+              <h2 style="font-size: 22px; font-weight: 800;">What-If Savings Simulator</h2>
+              <p style="font-size: 13.5px; color: var(--text-secondary);">
+                Simulate how minor daily or weekly habit changes compound into substantial college savings.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; align-items: start;">
+            <!-- Controls Form -->
+            <div>
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px;">
+                  <label class="form-label" style="margin-bottom: 0;">Additional Daily Savings</label>
+                  <span id="sim-daily-label" style="color: var(--sage-green);">₹50/day</span>
+                </div>
+                <input type="range" id="sim-daily-extra" min="0" max="500" step="10" value="50" style="width: 100%;">
+                <div class="form-hint">e.g. Making hostel coffee instead of buying cafe cappuccino</div>
+              </div>
+
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px;">
+                  <label class="form-label" style="margin-bottom: 0;">Additional Weekly Savings</label>
+                  <span id="sim-weekly-label" style="color: var(--sage-green);">₹200/week</span>
+                </div>
+                <input type="range" id="sim-weekly-extra" min="0" max="2000" step="50" value="200" style="width: 100%;">
+                <div class="form-hint">e.g. Taking campus bus instead of cab ride</div>
+              </div>
+
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px;">
+                  <label class="form-label" style="margin-bottom: 0;">Planned Monthly Expense Cut</label>
+                  <span id="sim-cut-label" style="color: var(--sage-green);">₹500/month</span>
+                </div>
+                <input type="range" id="sim-expense-cut" min="0" max="3000" step="100" value="500" style="width: 100%;">
+                <div class="form-hint">e.g. Canceling unused video streaming subscription</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                  <label class="form-label">Target Savings (₹)</label>
+                  <input type="number" id="sim-target-amount" class="form-input" value="15000">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Timeline Horizon</label>
+                  <select id="sim-months" class="form-select">
+                    <option value="3">3 Months</option>
+                    <option value="6" selected>6 Months (Semester)</option>
+                    <option value="12">12 Months (Full Year)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Projection Chart & Insights -->
+            <div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                <div style="background: var(--bg-surface-secondary); padding: 12px; border-radius: 10px;">
+                  <div style="font-size: 11px; color: var(--text-secondary);">Projected Monthly</div>
+                  <div style="font-size: 18px; font-weight: 800; color: var(--sage-green);" id="sim-projected-monthly">₹0</div>
+                </div>
+                <div style="background: var(--bg-surface-secondary); padding: 12px; border-radius: 10px;">
+                  <div style="font-size: 11px; color: var(--text-secondary);">Cumulative Total</div>
+                  <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);" id="sim-total-projected">₹0</div>
+                </div>
+                <div style="background: var(--bg-surface-secondary); padding: 12px; border-radius: 10px;">
+                  <div style="font-size: 11px; color: var(--text-secondary);">Extra Habit Gain</div>
+                  <div style="font-size: 18px; font-weight: 800; color: #9A7720;" id="sim-net-difference">+₹0</div>
+                </div>
+              </div>
+
+              <div style="height: 220px; position: relative; margin-bottom: 16px;">
+                <canvas id="simulationChart"></canvas>
+              </div>
+
+              <div id="sim-insights-list" style="background: var(--bg-surface-secondary); padding: 14px; border-radius: 10px;"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-bottom-nav">
+      <a href="/dashboard.html" class="mobile-nav-item"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/assistant.html" class="mobile-nav-item active"><i data-lucide="sparkles"></i><span>Assistant</span></a>
+      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
+      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+    </nav>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/assistant.js"></script>
+</body>
+</html>

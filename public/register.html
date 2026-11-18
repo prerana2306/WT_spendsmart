@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Left Hero Sidebar -->
+    <div class="auth-sidebar">
+      <div class="auth-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <div class="auth-hero-content">
+        <h1>Smart Money Management for Students</h1>
+        <p>Join thousands of college and university students mastering pocket money, split bills, and savings goals.</p>
+
+        <div class="auth-features-list">
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>Needs vs Wants automatic expense classification</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>Gamified No-Spend challenges & badge streaks</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>Interactive What-If savings simulator</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-footer">
+        © SpendSmart • Track better. Save smarter. Enjoy more.
+      </div>
+    </div>
+
+    <!-- Right Register Card -->
+    <div class="auth-main">
+      <div class="auth-card" style="max-width: 480px;">
+        <div class="auth-card-header">
+          <h2>Create Student Account 🎓</h2>
+          <p>Get started with smart budgeting tailored to college life.</p>
+        </div>
+
+        <form id="register-form">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" class="form-input" placeholder="e.g. Aarav Sharma" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Student Email Address</label>
+            <input type="email" id="reg-email" class="form-input" placeholder="e.g. aarav@campus.edu" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-college">College / University <span style="color:var(--text-secondary);font-weight:400;">(Optional)</span></label>
+            <input type="text" id="reg-college" class="form-input" placeholder="e.g. IIT Bombay / Delhi University">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-password">Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="register-password" class="form-input" placeholder="At least 6 characters" required autocomplete="new-password">
+              <button type="button" class="toggle-password-btn" data-target="register-password" title="Toggle visibility">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+            <div class="strength-meter">
+              <div class="strength-meter-fill" id="strength-fill"></div>
+            </div>
+            <div class="strength-label" id="strength-label"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+            <div class="password-input-wrap">
+              <input type="password" id="reg-confirm-password" class="form-input" placeholder="Repeat password" required autocomplete="new-password">
+              <button type="button" class="toggle-password-btn" data-target="reg-confirm-password" title="Toggle visibility">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 24px; font-size: 13px;">
+            <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer; color: var(--text-secondary); line-height: 1.4;">
+              <input type="checkbox" id="reg-terms" required style="margin-top: 3px;">
+              <span>I agree to the SpendSmart Student Terms of Service and acknowledge my financial records are strictly private to my account.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full" style="height: 48px; font-size: 15px;">
+            Create Student Account
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 24px; font-size: 13.5px; color: var(--text-secondary);">
+          Already registered? <a href="/login.html" style="font-weight: 600; color: var(--pine-green);">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email OTP Verification Modal -->
+  <div class="modal-overlay" id="otp-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Verify Student Email</h3>
+      </div>
+      <form id="otp-form">
+        <div class="modal-body" style="text-align: center;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--mint); color: var(--pine-green); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 24px;">
+            <i data-lucide="mail-check"></i>
+          </div>
+          <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Check Your Inbox</h4>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+            We sent a 6-digit confirmation code to <strong id="otp-email-display">your email</strong>. Enter it below to activate your account.
+          </p>
+
+          <div class="form-group" style="max-width: 260px; margin: 0 auto 20px;">
+            <input type="text" id="otp-code-input" class="form-input" placeholder="123456" maxlength="6"
+              style="text-align: center; font-size: 24px; letter-spacing: 6px; font-weight: 800; font-family: var(--font-heading);" required>
+          </div>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="submit" class="btn btn-primary" style="min-width: 180px;">Verify & Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

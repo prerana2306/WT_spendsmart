@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Left Hero Sidebar -->
+    <div class="auth-sidebar">
+      <div class="auth-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <div class="auth-hero-content">
+        <h1>Your Money.<br>Your Choices.</h1>
+        <p>Log in to track pocket money, stick to your budget, and build disciplined financial freedom before graduation.</p>
+
+        <div class="auth-features-list">
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>Safe Daily Spending Limit calculations</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>AI Smart Saving Assistant with live affordability analysis</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-check"><i data-lucide="check"></i></div>
+            <span>Split hostel bills & track roommates' balances</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-footer">
+        © SpendSmart • Track better. Save smarter. Enjoy more.
+      </div>
+    </div>
+
+    <!-- Right Login Card -->
+    <div class="auth-main">
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <h2>Welcome back 👋</h2>
+          <p>Enter your student account credentials to sign in.</p>
+        </div>
+
+        <!-- 1-Click Demo Account Banner -->
+        <div class="demo-account-banner">
+          <div class="demo-banner-text">
+            <h4>Quick Demo Access</h4>
+            <p>Explore with pre-seeded student transactions & analytics</p>
+          </div>
+          <button type="button" class="btn btn-sm btn-primary" id="demo-login-btn">
+            Try Demo Student
+          </button>
+        </div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Student Email</label>
+            <input type="email" id="login-email" class="form-input" placeholder="e.g. student@college.edu" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+              <a href="#" id="forgot-password-link" style="font-size: 12.5px; font-weight: 600;">Forgot?</a>
+            </div>
+            <div class="password-input-wrap">
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="toggle-password-btn" data-target="login-password" title="Toggle password visibility">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; font-size: 13px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-secondary);">
+              <input type="checkbox" id="remember-me" checked> Remember this device
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full" style="height: 48px; font-size: 15px;">
+            Sign In to Dashboard
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 24px; font-size: 13.5px; color: var(--text-secondary);">
+          Don't have an account yet? <a href="/register.html" style="font-weight: 600; color: var(--pine-green);">Create Student Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" id="forgot-password-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Reset Student Password</h3>
+        <button class="modal-close-btn" onclick="closeModal('forgot-password-modal')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="forgot-password-form">
+        <div class="modal-body">
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+            Enter your registered student email address. We'll send a secure password reset link or instructions.
+          </p>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="forgot-email-input" class="form-input" placeholder="student@college.edu" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('forgot-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Send Reset Instructions</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile & Settings — SpendSmart</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">₹</div>
+        <div class="brand-text">
+          <h2>SpendSmart</h2>
+          <span>Student Fintech</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-label">Main Navigation</li>
+        <li class="sidebar-item">
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-item active">
+          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+        </div>
+        <div class="sidebar-item">
+          <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle"><i data-lucide="menu"></i></button>
+          <div class="header-title-box">
+            <h1>Student Profile & Settings</h1>
+            <p>Customize your personal preferences, theme, notification controls, and data privacy.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="header-action-btn" id="theme-toggle-btn"><i data-lucide="moon" id="theme-icon"></i></button>
+          <a href="/profile.html" class="user-profile-pill">
+            <div class="user-avatar-circle">A</div>
+            <span class="user-name-label">Student</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="page-body" style="max-width: 900px;">
+        <!-- Student Details Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="user"></i> Student Profile Information</h3>
+          </div>
+          <form id="profile-info-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="prof-name" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Student Email (Locked)</label>
+                <input type="email" id="prof-email" class="form-input" disabled style="opacity: 0.7;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">College / University</label>
+              <input type="text" id="prof-college" class="form-input" placeholder="e.g. IIT Bombay / Delhi University">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Save Profile Changes</button>
+          </form>
+        </div>
+
+        <!-- Budget & Allowance Preferences Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="sliders"></i> Financial Baseline Preferences</h3>
+          </div>
+          <form id="financial-prefs-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Primary Income Source</label>
+                <select id="prof-income-source" class="form-select">
+                  <option value="Monthly allowance">Monthly allowance</option>
+                  <option value="Pocket money">Pocket money</option>
+                  <option value="Part-time job">Part-time job / Internship</option>
+                  <option value="Scholarship">Scholarship</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Default Currency</label>
+                <select id="prof-currency" class="form-select">
+                  <option value="INR" selected>INR (₹) - Indian Rupee</option>
+                  <option value="USD">USD ($) - US Dollar</option>
+                  <option value="EUR">EUR (€) - Euro</option>
+                  <option value="GBP">GBP (£) - British Pound</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Estimated Monthly Inflow (₹)</label>
+                <input type="number" id="prof-income" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Target Monthly Budget Limit (₹)</label>
+                <input type="number" id="prof-budget" class="form-input">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Update Financial Defaults</button>
+          </form>
+        </div>
+
+        <!-- Theme & Appearance Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="palette"></i> Interface Theme</h3>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+            Choose your preferred color theme. Your selection persists across device reloads.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div class="card option-select-card" id="theme-card-light" onclick="chooseTheme('light')">
+              <div class="option-icon"><i data-lucide="sun"></i></div>
+              <div>
+                <div style="font-weight: 700;">Light Theme</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Warm cream & pine green</div>
+              </div>
+            </div>
+
+            <div class="card option-select-card" id="theme-card-dark" onclick="chooseTheme('dark')">
+              <div class="option-icon"><i data-lucide="moon"></i></div>
+              <div>
+                <div style="font-weight: 700;">Dark Theme</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Low-light emerald glow</div>
+              </div>
+            </div>
+
+            <div class="card option-select-card" id="theme-card-system" onclick="chooseTheme('system')">
+              <div class="option-icon"><i data-lucide="laptop"></i></div>
+              <div>
+                <div style="font-weight: 700;">System Default</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">Matches your device OS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Export & Privacy Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="database"></i> Data Privacy & Export</h3>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+            You retain 100% ownership of your data. Export your full transaction history, goals, and badges as a structured JSON bundle.
+          </p>
+
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-outline btn-sm" onclick="exportStudentData()">
+              <i data-lucide="download"></i> Download Personal Financial Archive (JSON)
+            </button>
+          </div>
+        </div>
+
+        <!-- Danger Zone: Delete Account -->
+        <div class="card" style="border-left: 4px solid var(--muted-coral);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: var(--muted-coral);"><i data-lucide="trash-2"></i> Danger Zone</h3>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+            Permanently delete your student account and wipe all transactions, budgets, goals, split bills, and challenge records. This action cannot be reversed.
+          </p>
+          <button class="btn btn-danger btn-sm" onclick="deleteStudentAccount()">
+            Delete Account Permanently
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-bottom-nav">
+      <a href="/dashboard.html" class="mobile-nav-item"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/assistant.html" class="mobile-nav-item"><i data-lucide="sparkles"></i><span>Assistant</span></a>
+      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
+      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+    </nav>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      requireAuth();
+      await loadProfileData();
+      highlightActiveThemeCard();
+    });
+
+    async function loadProfileData() {
+      try {
+        const res = await API.get('/auth/profile');
+        if (!res.success) return;
+        const u = res.user;
+
+        document.getElementById('prof-name').value = u.name || '';
+        document.getElementById('prof-email').value = u.email || '';
+        document.getElementById('prof-college').value = u.college || '';
+
+        const prefs = u.preferences || {};
+        document.getElementById('prof-income-source').value = prefs.incomeSource || 'Monthly allowance';
+        document.getElementById('prof-currency').value = prefs.currency || 'INR';
+        document.getElementById('prof-income').value = prefs.monthlyIncome || 0;
+        document.getElementById('prof-budget').value = prefs.monthlyBudget || 0;
+      } catch (err) {
+        showToast('Failed to load profile.', 'danger');
+      }
+    }
+
+    // Profile form submit
+    document.getElementById('profile-info-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('prof-name').value.trim();
+      const college = document.getElementById('prof-college').value.trim();
+      try {
+        const res = await API.put('/auth/profile', { name, college });
+        API.setUser(res.user);
+        showToast('Profile information updated!', 'success');
+      } catch (err) {
+        showToast(err.message, 'danger');
+      }
+    });
+
+    // Financial prefs submit
+    document.getElementById('financial-prefs-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const incomeSource = document.getElementById('prof-income-source').value;
+      const currency = document.getElementById('prof-currency').value;
+      const monthlyIncome = parseFloat(document.getElementById('prof-income').value) || 0;
+      const monthlyBudget = parseFloat(document.getElementById('prof-budget').value) || 0;
+
+      try {
+        const res = await API.put('/auth/profile', {
+          preferences: {
+            incomeSource,
+            currency,
+            monthlyIncome,
+            monthlyBudget
+          }
+        });
+        API.setUser(res.user);
+        showToast('Financial defaults saved!', 'success');
+      } catch (err) {
+        showToast(err.message, 'danger');
+      }
+    });
+
+    function highlightActiveThemeCard() {
+      const cur = getCurrentTheme();
+      ['light', 'dark', 'system'].forEach(t => {
+        const card = document.getElementById(`theme-card-${t}`);
+        if (card) {
+          if (t === cur) card.classList.add('selected');
+          else card.classList.remove('selected');
+        }
+      });
+    }
+
+    function chooseTheme(t) {
+      setTheme(t);
+      highlightActiveThemeCard();
+      showToast(`Theme switched to ${t.charAt(0).toUpperCase() + t.slice(1)}`, 'info');
+    }
+
+    async function exportStudentData() {
+      try {
+        const blob = await API.get('/auth/export-data');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `SpendSmart_Student_Export_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        showToast('Export downloaded successfully!', 'success');
+      } catch (err) {
+        showToast('Export failed: ' + err.message, 'danger');
+      }
+    }
+
+    async function deleteStudentAccount() {
+      const confirmText = prompt('This will permanently delete your account and all financial history. Type "DELETE" to confirm:');
+      if (confirmText !== 'DELETE') return;
+
+      try {
+        await API.delete('/auth/delete-account');
+        API.clearAuth();
+        alert('Account permanently deleted.');
+        window.location.href = '/login.html';
+      } catch (err) {
+        showToast(err.message, 'danger');
+      }
+    }
+  </script>
+</body>
+</html>
