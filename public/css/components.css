@@ -1,14 +1,16 @@
 /* SpendSmart Components: Modals, Dropdowns, Toast, Calendar, Assistant & Badges */
 
-/* Modals */
+/* ===========================
+   MODALS
+   =========================== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(17, 27, 22, 0.6);
-  backdrop-filter: blur(4px);
+  background-color: rgba(17, 27, 22, 0.55);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,12 +35,12 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
-  transform: translateY(20px);
+  transform: translateY(24px) scale(0.98);
   transition: transform var(--transition-fast);
 }
 
 .modal-overlay.active .modal-card {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .modal-header {
@@ -47,11 +49,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .modal-header h3 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .modal-close-btn {
@@ -66,6 +70,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .modal-close-btn:hover {
@@ -83,14 +88,16 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* Toast System */
+/* ===========================
+   TOAST SYSTEM
+   =========================== */
 #toast-container {
   position: fixed;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -111,13 +118,13 @@
   color: var(--text-primary);
   font-size: 13.5px;
   font-weight: 500;
-  min-width: 300px;
-  max-width: 420px;
+  min-width: 280px;
+  max-width: 400px;
   animation: toastSlideIn 0.3s ease forwards;
 }
 
 @keyframes toastSlideIn {
-  from { transform: translateX(100%); opacity: 0; }
+  from { transform: translateX(110%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
 
@@ -126,68 +133,9 @@
 .toast.toast-warning { border-left: 4px solid var(--butter-yellow); }
 .toast.toast-info { border-left: 4px solid var(--accent-info); }
 
-/* Dropdowns */
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 320px;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  box-shadow: var(--shadow-lg);
-  padding: 8px 0;
-  z-index: 200;
-  display: none;
-  animation: dropdownFade 0.2s ease;
-}
-
-.dropdown-menu.active {
-  display: block;
-}
-
-@keyframes dropdownFade {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.dropdown-header {
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.dropdown-header h4 {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.dropdown-item {
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-size: 13.5px;
-  transition: background-color var(--transition-fast);
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: var(--bg-surface-secondary);
-  text-decoration: none;
-}
-
-.dropdown-divider {
-  height: 1px;
-  background-color: var(--border-color);
-  margin: 6px 0;
-}
-
-/* Financial Calendar Styles */
+/* ===========================
+   FINANCIAL CALENDAR STYLES
+   =========================== */
 .calendar-controls {
   display: flex;
   align-items: center;
@@ -208,7 +156,7 @@
 
 .calendar-day-head {
   text-align: center;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -270,7 +218,7 @@
 .cal-summary-tag {
   font-size: 10px;
   font-weight: 600;
-  padding: 1px 4px;
+  padding: 1px 5px;
   border-radius: 4px;
   margin-top: 2px;
   white-space: nowrap;
@@ -282,7 +230,9 @@
 .cal-summary-tag.expense { background-color: #F8DFD7; color: #B54D41; }
 .cal-summary-tag.bill { background-color: #FDF4D9; color: #8F6E15; }
 
-/* AI Assistant Chat UI */
+/* ===========================
+   AI ASSISTANT CHAT UI
+   =========================== */
 .assistant-chat-container {
   display: flex;
   flex-direction: column;
@@ -294,9 +244,9 @@
 }
 
 .assistant-chat-header {
-  padding: 18px 24px;
+  padding: 16px 22px;
   border-bottom: 1px solid var(--border-color);
-  background: linear-gradient(135deg, rgba(41, 76, 58, 0.05), rgba(107, 155, 123, 0.08));
+  background: linear-gradient(135deg, rgba(41, 76, 58, 0.06), rgba(107, 155, 123, 0.08));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -312,29 +262,33 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background-color: var(--pine-green);
+  background: linear-gradient(135deg, var(--pine-green), #4A7D60);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
+  box-shadow: 0 4px 10px rgba(41, 76, 58, 0.3);
 }
 
 .assistant-messages-scroll {
   flex: 1;
-  padding: 24px;
+  padding: 20px 22px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
 }
 
 .chat-bubble {
   max-width: 75%;
-  padding: 14px 18px;
+  padding: 13px 16px;
   border-radius: 14px;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 13.5px;
+  line-height: 1.55;
+  animation: fadeInUp 0.25s ease both;
 }
 
 .chat-bubble.assistant {
@@ -342,54 +296,60 @@
   background-color: var(--bg-surface-secondary);
   border: 1px solid var(--border-color);
   border-bottom-left-radius: 4px;
+  color: var(--text-primary);
 }
 
 .chat-bubble.user {
   align-self: flex-end;
-  background-color: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
+  background: linear-gradient(135deg, var(--pine-green), #3A6650);
+  color: #FFFFFF;
   border-bottom-right-radius: 4px;
 }
 
 .quick-prompts-bar {
-  padding: 12px 24px;
+  padding: 10px 22px;
   background-color: var(--bg-surface-secondary);
   border-top: 1px solid var(--border-color);
   display: flex;
   gap: 8px;
   overflow-x: auto;
+  scrollbar-width: none;
 }
 
+.quick-prompts-bar::-webkit-scrollbar { display: none; }
+
 .prompt-chip {
-  padding: 6px 14px;
+  padding: 7px 14px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  font-size: 12.5px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
   white-space: nowrap;
   transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .prompt-chip:hover {
   background-color: var(--mint);
   border-color: var(--sage-green);
   color: var(--pine-green);
+  transform: translateY(-1px);
 }
 
 .assistant-input-bar {
-  padding: 16px 24px;
+  padding: 14px 22px;
   border-top: 1px solid var(--border-color);
   display: flex;
-  gap: 12px;
+  gap: 10px;
   background-color: var(--bg-surface);
 }
 
 .assistant-input-bar input {
   flex: 1;
-  height: 46px;
+  height: 44px;
   border-radius: 24px;
   padding: 0 20px;
   border: 1px solid var(--border-color);
@@ -397,17 +357,21 @@
   color: var(--text-primary);
   outline: none;
   font-size: 14px;
+  transition: border-color var(--transition-fast);
 }
 
 .assistant-input-bar input:focus {
   border-color: var(--sage-green);
+  box-shadow: 0 0 0 3px rgba(107, 155, 123, 0.15);
 }
 
-/* Badges Showcase Grid */
+/* ===========================
+   BADGES SHOWCASE GRID
+   =========================== */
 .badges-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .badge-card {
@@ -420,6 +384,12 @@
   flex-direction: column;
   align-items: center;
   transition: all var(--transition-fast);
+  animation: fadeInUp 0.4s ease both;
+}
+
+.badge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .badge-card.unlocked {
@@ -443,9 +413,311 @@
   color: #4A3A0B;
   font-size: 26px;
   margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(242, 221, 164, 0.4);
 }
 
 .badge-card.locked .badge-icon-wrap {
   background: var(--bg-surface-secondary);
   color: var(--text-secondary);
+  box-shadow: none;
+}
+
+/* ===========================
+   SAVINGS GOAL CARDS
+   =========================== */
+.goals-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.goal-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all var(--transition-fast);
+  animation: fadeInUp 0.4s ease both;
+}
+
+.goal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.goal-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.goal-emoji {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.goal-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.goal-category-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-secondary);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.goal-amounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.goal-amount-box {
+  background-color: var(--bg-surface-secondary);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.goal-amount-box .label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.goal-amount-box .value {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.goal-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.goal-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.goal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ===========================
+   CHALLENGE CARDS
+   =========================== */
+.challenge-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.challenge-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all var(--transition-fast);
+  animation: fadeInUp 0.4s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.challenge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.challenge-card.active-challenge {
+  border-color: var(--sage-green);
+  background: linear-gradient(135deg, rgba(107, 155, 123, 0.05), var(--bg-surface));
+}
+
+.challenge-card.completed-challenge {
+  border-color: var(--butter-yellow);
+  background: linear-gradient(135deg, rgba(242, 221, 164, 0.08), var(--bg-surface));
+}
+
+.challenge-emoji {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.challenge-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.challenge-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.challenge-streak {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--butter-yellow);
+  background-color: rgba(242, 221, 164, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+/* ===========================
+   SPLIT BILL CARDS
+   =========================== */
+.split-group-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 20px;
+  transition: all var(--transition-fast);
+  animation: fadeInUp 0.4s ease both;
+}
+
+.split-group-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.split-member-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background-color: var(--bg-surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.balance-owe {
+  color: var(--muted-coral);
+  font-weight: 700;
+}
+
+.balance-owed {
+  color: var(--sage-green);
+  font-weight: 700;
+}
+
+/* ===========================
+   ANALYTICS PAGE STYLES
+   =========================== */
+.health-pillar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.health-pillar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-pillar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.health-pillar-score {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sage-green);
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.suggestion-item i, .suggestion-item svg {
+  color: var(--butter-yellow);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ===========================
+   ANOMALY ALERT CARDS
+   =========================== */
+.anomaly-alert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background-color: var(--accent-warning-bg);
+  border: 1px solid rgba(156, 120, 32, 0.25);
+  margin-bottom: 10px;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.anomaly-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: rgba(156, 120, 32, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-warning);
+  flex-shrink: 0;
+}
+
+.anomaly-text h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.anomaly-text p {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.4;
 }

@@ -63,6 +63,17 @@
 
   --transition-fast: 0.18s ease;
   --transition-normal: 0.25s ease;
+
+  /* Insight card colors */
+  --insight-tip-bg: #EEF8F1;
+  --insight-tip-border: #A5D6B5;
+  --insight-tip-icon: #2C7A4E;
+  --insight-warn-bg: #FEF7EC;
+  --insight-warn-border: #F0C978;
+  --insight-warn-icon: #A0720A;
+  --insight-great-bg: #EAF4FE;
+  --insight-great-border: #9BC4E8;
+  --insight-great-icon: #2A6099;
 }
 
 [data-theme='dark'] {
@@ -102,6 +113,16 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.55);
+
+  --insight-tip-bg: #1A2E21;
+  --insight-tip-border: #3A6648;
+  --insight-tip-icon: #7EC99A;
+  --insight-warn-bg: #2A2213;
+  --insight-warn-border: #7A5E0A;
+  --insight-warn-icon: #E8C66A;
+  --insight-great-bg: #172030;
+  --insight-great-border: #2E5272;
+  --insight-great-icon: #7AB5E5;
 }
 
 /* Reset & Box Sizing */
@@ -109,6 +130,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html, body {
@@ -140,6 +165,30 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* Entrance Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.4s ease both;
+}
+
+.animate-in-fast {
+  animation: fadeInUp 0.25s ease both;
 }
 
 /* Common Buttons */
@@ -174,6 +223,7 @@ a:hover {
 .btn-primary:hover {
   background-color: var(--btn-primary-hover);
   text-decoration: none;
+  box-shadow: 0 4px 12px rgba(41, 76, 58, 0.3);
 }
 
 .btn-secondary {
@@ -356,17 +406,54 @@ a:hover {
 
 .progress-bar-fill {
   height: 100%;
-  background-color: var(--sage-green);
+  background: linear-gradient(90deg, var(--sage-green), #8BC4A0);
   border-radius: 4px;
-  transition: width 0.4s ease;
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .progress-bar-fill.warning {
-  background-color: var(--butter-yellow);
+  background: linear-gradient(90deg, #E6A820, var(--butter-yellow));
 }
 
 .progress-bar-fill.danger {
-  background-color: var(--muted-coral);
+  background: linear-gradient(90deg, #C85C50, var(--muted-coral));
+}
+
+/* Insight Cards (Student-friendly tip boxes) */
+.insight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  border: 1px solid;
+  animation: fadeInUp 0.35s ease both;
+}
+
+.insight-card.tip {
+  background-color: var(--insight-tip-bg);
+  border-color: var(--insight-tip-border);
+  color: var(--text-primary);
+}
+
+.insight-card.warn {
+  background-color: var(--insight-warn-bg);
+  border-color: var(--insight-warn-border);
+  color: var(--text-primary);
+}
+
+.insight-card.great {
+  background-color: var(--insight-great-bg);
+  border-color: var(--insight-great-border);
+  color: var(--text-primary);
+}
+
+.insight-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 /* Utility classes */

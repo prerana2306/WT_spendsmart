@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insights & Analytics — SpendSmart</title>
+  <title>Money Insights — SpendSmart</title>
+  <meta name="description" content="Understand your money health, spot unusual spending, and get tips to save more.">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/components.css">
@@ -15,50 +16,53 @@
   <div class="app-layout">
     <div class="sidebar-backdrop"></div>
 
-    <!-- Desktop Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo-icon">₹</div>
         <div class="brand-text">
           <h2>SpendSmart</h2>
-          <span>Student Fintech</span>
+          <span>Student Finance</span>
         </div>
       </div>
 
       <ul class="sidebar-menu">
-        <li class="menu-label">Main Navigation</li>
+        <li class="menu-group-label">My Money</li>
         <li class="sidebar-item">
-          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
-        </li>
-        <li class="sidebar-item active">
-          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+          <a href="/budgets.html"><i data-lucide="sliders"></i> <span>Budgets</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
         </li>
-        <li class="sidebar-item">
-          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+
+        <li class="menu-group-label">Smart Tools</li>
+        <li class="sidebar-item active">
+          <a href="/analytics.html"><i data-lucide="activity"></i> <span>Money Insights</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Money Assistant</span></a>
+        </li>
+
+        <li class="menu-group-label">Student Life</li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Saving Challenges</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Calendar & Reminders</span></a>
         </li>
       </ul>
 
       <div class="sidebar-footer">
         <div class="sidebar-item">
-          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+          <a href="/profile.html"><i data-lucide="user"></i> <span>My Profile</span></a>
         </div>
         <div class="sidebar-item">
           <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
@@ -66,133 +70,208 @@
       </div>
     </aside>
 
-    <!-- Main Content -->
     <div class="main-wrapper">
       <header class="top-header">
         <div class="header-left">
           <button class="mobile-menu-btn" id="mobile-menu-toggle"><i data-lucide="menu"></i></button>
           <div class="header-title-box">
-            <h1>Financial Insights & Analytics</h1>
-            <p>Understand your money behavior through data intelligence and behavioral scoring.</p>
+            <h1>Money Insights</h1>
+            <p>See how healthy your money habits are and get tips to improve</p>
           </div>
         </div>
 
         <div class="header-right">
           <button class="btn btn-sm btn-outline" onclick="printFinancialReport()">
-            <i data-lucide="printer"></i> Print Financial Report
+            <i data-lucide="printer"></i> Print Report
           </button>
           <button class="header-action-btn" id="theme-toggle-btn"><i data-lucide="moon" id="theme-icon"></i></button>
           <a href="/profile.html" class="user-profile-pill">
-            <div class="user-avatar-circle">A</div>
-            <span class="user-name-label">Student</span>
+            <div class="user-avatar-circle" id="user-avatar-initials">S</div>
+            <span class="user-name-label" id="user-name-display">Student</span>
           </a>
         </div>
       </header>
 
       <main class="page-body">
-        <!-- Top Row: Financial Health Score Breakdown (FEATURE 5) -->
+
+        <!-- YOUR MONEY HEALTH SCORE -->
         <div class="card" style="margin-bottom: 24px; padding: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
             <div>
-              <span class="badge badge-need" style="margin-bottom: 6px;">Feature 5: Transparent Scoring</span>
-              <h2 style="font-size: 24px; font-weight: 800;">Student Financial Health Score</h2>
-              <p style="font-size: 13.5px; color: var(--text-secondary);">Calculated across 5 weighted pillars of real student financial records.</p>
+              <span class="badge badge-need" style="margin-bottom: 8px;">💚 Scored on 5 areas</span>
+              <h2 style="font-size: 22px; font-weight: 800;">Your Money Health Score</h2>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                How well are you managing your money? This score tells you at a glance.
+              </p>
             </div>
             <div style="display: flex; align-items: baseline; gap: 10px;">
-              <span style="font-size: 44px; font-weight: 800; color: var(--pine-green); font-family: var(--font-heading);" id="analytics-health-score">0</span>
-              <span style="font-size: 18px; color: var(--text-secondary);">/ 100</span>
-              <span class="badge badge-success" id="analytics-health-category" style="font-size: 14px; padding: 6px 12px;">Good</span>
+              <span style="font-size: 48px; font-weight: 800; color: var(--pine-green); font-family: var(--font-heading);" id="analytics-health-score">0</span>
+              <span style="font-size: 20px; color: var(--text-secondary);">/ 100</span>
+              <span class="badge badge-success" id="analytics-health-category" style="font-size: 13px; padding: 6px 14px;">Good</span>
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 32px; align-items: start;">
-            <!-- 5 Pillar Component Bars -->
+            <!-- 5 Scoring Areas -->
             <div>
-              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary);">Pillar Evaluation</h4>
-              <div id="health-components-list"></div>
+              <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary);">
+                How You're Doing In Each Area
+              </h4>
+              <div id="health-components-list">
+                <!-- Dynamically populated by analytics.js -->
+              </div>
             </div>
 
-            <!-- Actionable Recommendations -->
+            <!-- Tips to Improve -->
             <div style="background: var(--bg-surface-secondary); padding: 20px; border-radius: 14px;">
-              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="lightbulb" style="color: var(--butter-yellow);"></i> Recommended Improvements
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="lightbulb" style="color: var(--butter-yellow); width: 16px; height: 16px;"></i> Tips to Improve
               </h4>
-              <div id="health-suggestions-list"></div>
+              <div id="health-suggestions-list">
+                <!-- Dynamically populated -->
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Middle Row: FEATURE 2 (Needs vs Wants Analyzer) & FEATURE 4 (Anomaly Detection) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
-          <!-- FEATURE 2: Needs vs Wants Analyzer Card -->
+        <!-- NEED OR WANT? + UNUSUAL SPENDING ALERTS -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 24px;">
+
+          <!-- NEED OR WANT? -->
           <div class="card">
             <div class="card-header">
               <div>
-                <span class="badge badge-info" style="margin-bottom: 4px;">Feature 2: Behavioral Split</span>
-                <h3 class="card-title"><i data-lucide="pie-chart"></i> Needs vs Wants Analyzer</h3>
-                <div class="card-subtitle">50/30/20 student budgeting guideline</div>
+                <span class="badge badge-info" style="margin-bottom: 6px;">50 / 30 / 20 Rule</span>
+                <h3 class="card-title"><i data-lucide="scale"></i> Need or Want?</h3>
+                <div class="card-subtitle">See how much of your spending is essential vs. optional</div>
               </div>
             </div>
 
-            <div style="display: flex; justify-content: space-around; text-align: center; margin: 12px 0 16px; background: var(--bg-surface-secondary); padding: 14px; border-radius: 12px;">
+            <div style="display: flex; justify-content: space-around; text-align: center; margin: 12px 0 16px; background: var(--bg-surface-secondary); padding: 14px; border-radius: 12px; gap: 8px;">
               <div>
-                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Needs (Essentials)</div>
-                <div style="font-size: 22px; font-weight: 800; color: var(--sage-green);" id="needs-percentage-label">0%</div>
+                <div style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">✅ Needs (Essential)</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--sage-green);" id="needs-percentage-label">0%</div>
                 <div style="font-size: 12px; color: var(--text-secondary);" id="needs-amount-label">₹0</div>
               </div>
               <div style="border-right: 1px solid var(--border-color);"></div>
               <div>
-                <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Wants (Discretionary)</div>
-                <div style="font-size: 22px; font-weight: 800; color: var(--muted-coral);" id="wants-percentage-label">0%</div>
+                <div style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">🛒 Wants (Optional)</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--muted-coral);" id="wants-percentage-label">0%</div>
                 <div style="font-size: 12px; color: var(--text-secondary);" id="wants-amount-label">₹0</div>
               </div>
             </div>
 
-            <div style="height: 220px; position: relative; margin-bottom: 16px;">
+            <div style="height: 220px; position: relative; margin-bottom: 14px;">
               <canvas id="analyticsNeedsWantsChart"></canvas>
             </div>
 
             <div id="needs-wants-recommendations"></div>
           </div>
 
-          <!-- FEATURE 4: Expense Anomaly Detection Card -->
+          <!-- UNUSUAL SPENDING ALERTS -->
           <div class="card">
             <div class="card-header">
               <div>
-                <span class="badge badge-warning" style="margin-bottom: 4px;">Feature 4: Pattern Detection</span>
-                <h3 class="card-title"><i data-lucide="alert-triangle"></i> Expense Anomaly Alerts</h3>
-                <div class="card-subtitle">Statistical comparison with your historical 30-day baseline</div>
+                <span class="badge badge-warning" style="margin-bottom: 6px;">⚠️ Smart Detection</span>
+                <h3 class="card-title"><i data-lucide="alert-triangle"></i> Unusual Spending Alerts</h3>
+                <div class="card-subtitle">We noticed you spent more than usual in some areas</div>
               </div>
             </div>
 
-            <div id="anomalies-list-container" style="max-height: 480px; overflow-y: auto;">
+            <div id="anomalies-list-container" style="max-height: 460px; overflow-y: auto;">
               <!-- Dynamically populated by analytics.js -->
             </div>
           </div>
         </div>
 
-        <!-- Bottom Row: Spending Trends by Category -->
-        <div class="card">
+        <!-- WHERE YOUR MONEY GOES (Spending Trends) -->
+        <div class="card" style="margin-bottom: 24px;">
           <div class="card-header">
             <div>
-              <h3 class="card-title"><i data-lucide="trending-up"></i> Category Breakdown & Spending Velocity</h3>
-              <div class="card-subtitle">Aggregated totals from your recorded transactions</div>
+              <h3 class="card-title"><i data-lucide="trending-up"></i> Where Your Money Goes</h3>
+              <div class="card-subtitle">Your spending breakdown by category from your transactions</div>
             </div>
           </div>
           <div style="height: 280px; position: relative;">
             <canvas id="analyticsTrendsChart"></canvas>
           </div>
         </div>
+
+        <!-- TRY SAVING MORE (What-If Savings Simulator) -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <span class="badge badge-success" style="margin-bottom: 6px;">💡 What-If Tool</span>
+              <h3 class="card-title"><i data-lucide="calculator"></i> Try Saving More</h3>
+              <div class="card-subtitle">See how much extra you could save by making small changes</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+            <!-- Simulator Inputs -->
+            <div>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
+                What if you saved a little more each day or cut back on some spending? Here's what that could add up to.
+              </p>
+
+              <div class="form-group">
+                <label class="form-label">Extra daily savings (₹)</label>
+                <input type="number" id="sim-daily-savings" class="form-input" placeholder="e.g. 50" value="50">
+                <div class="form-hint">Save this extra amount every day</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Monthly expense reduction (₹)</label>
+                <input type="number" id="sim-expense-reduction" class="form-input" placeholder="e.g. 500" value="500">
+                <div class="form-hint">Cut this much from optional spending per month</div>
+              </div>
+
+              <button class="btn btn-primary" onclick="runSavingsSimulator()" id="btn-run-simulator">
+                <i data-lucide="play"></i> Show Me The Result
+              </button>
+            </div>
+
+            <!-- Simulator Results -->
+            <div id="simulator-results" style="display: none;">
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 14px;">💰 You Could Save:</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="background: var(--bg-surface-secondary); padding: 14px; border-radius: 10px; text-align: center;">
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">In 1 Month</div>
+                  <div style="font-size: 20px; font-weight: 800; color: var(--sage-green); margin-top: 4px;" id="sim-1month">₹0</div>
+                </div>
+                <div style="background: var(--bg-surface-secondary); padding: 14px; border-radius: 10px; text-align: center;">
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">In 3 Months</div>
+                  <div style="font-size: 20px; font-weight: 800; color: var(--sage-green); margin-top: 4px;" id="sim-3months">₹0</div>
+                </div>
+                <div style="background: var(--bg-surface-secondary); padding: 14px; border-radius: 10px; text-align: center;">
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">In 6 Months</div>
+                  <div style="font-size: 20px; font-weight: 800; color: var(--pine-green); margin-top: 4px;" id="sim-6months">₹0</div>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(41,76,58,0.08), rgba(107,155,123,0.1)); padding: 14px; border-radius: 10px; text-align: center; border: 1px solid var(--sage-green);">
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">In 1 Year</div>
+                  <div style="font-size: 22px; font-weight: 800; color: var(--pine-green); margin-top: 4px;" id="sim-1year">₹0</div>
+                </div>
+              </div>
+              <div id="sim-message" style="margin-top: 14px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; padding: 12px; background: var(--bg-surface-secondary); border-radius: 10px;"></div>
+            </div>
+
+            <div id="simulator-placeholder" style="display: flex; align-items: center; justify-content: center; background: var(--bg-surface-secondary); border-radius: 12px; min-height: 200px; flex-direction: column; gap: 10px; color: var(--text-secondary);">
+              <i data-lucide="calculator" style="width: 36px; height: 36px; opacity: 0.4;"></i>
+              <p style="font-size: 13px;">Enter values and click "Show Me The Result"</p>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
 
-    <!-- Mobile Nav -->
+    <!-- Mobile Navigation -->
     <nav class="mobile-bottom-nav">
       <a href="/dashboard.html" class="mobile-nav-item"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
-      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Spending</span></a>
       <a href="/assistant.html" class="mobile-nav-item"><i data-lucide="sparkles"></i><span>Assistant</span></a>
-      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
-      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+      <a href="/goals.html" class="mobile-nav-item"><i data-lucide="target"></i><span>Goals</span></a>
+      <a href="/profile.html" class="mobile-nav-item"><i data-lucide="user"></i><span>Profile</span></a>
     </nav>
   </div>
 
@@ -201,5 +280,59 @@
   <script src="/js/theme.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/analytics.js"></script>
+  <script>
+    async function runSavingsSimulator() {
+      const dailySavings = parseFloat(document.getElementById('sim-daily-savings').value) || 0;
+      const expenseReduction = parseFloat(document.getElementById('sim-expense-reduction').value) || 0;
+
+      if (dailySavings === 0 && expenseReduction === 0) {
+        if (window.showToast) showToast('Please enter at least one saving amount.', 'warning');
+        return;
+      }
+
+      try {
+        const btn = document.getElementById('btn-run-simulator');
+        if (btn) { btn.disabled = true; btn.textContent = 'Calculating...'; }
+
+        const res = await API.post('/smart/simulator', {
+          dailySavings,
+          weeklyReduction: 0,
+          monthlyReduction: expenseReduction
+        });
+
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i data-lucide="play"></i> Show Me The Result'; if (window.lucide) lucide.createIcons(); }
+
+        if (res && res.success && res.data) {
+          const d = res.data;
+          document.getElementById('sim-1month').textContent = formatCurrency(d.oneMonth || (dailySavings * 30 + expenseReduction));
+          document.getElementById('sim-3months').textContent = formatCurrency(d.threeMonths || (dailySavings * 90 + expenseReduction * 3));
+          document.getElementById('sim-6months').textContent = formatCurrency(d.sixMonths || (dailySavings * 180 + expenseReduction * 6));
+          document.getElementById('sim-1year').textContent = formatCurrency(d.oneYear || (dailySavings * 365 + expenseReduction * 12));
+          if (d.message) document.getElementById('sim-message').textContent = d.message;
+        } else {
+          // Calculate client-side if API unavailable
+          const monthly = dailySavings * 30 + expenseReduction;
+          document.getElementById('sim-1month').textContent = formatCurrency(monthly);
+          document.getElementById('sim-3months').textContent = formatCurrency(monthly * 3);
+          document.getElementById('sim-6months').textContent = formatCurrency(monthly * 6);
+          document.getElementById('sim-1year').textContent = formatCurrency(monthly * 12);
+          document.getElementById('sim-message').textContent = `By saving ₹${dailySavings} daily and cutting ₹${expenseReduction} monthly, you could build a solid savings cushion!`;
+        }
+
+        document.getElementById('simulator-results').style.display = 'block';
+        document.getElementById('simulator-placeholder').style.display = 'none';
+
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        const btn = document.getElementById('btn-run-simulator');
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i data-lucide="play"></i> Show Me The Result'; if (window.lucide) lucide.createIcons(); }
+        if (window.showToast) showToast('Could not run simulation. Try again.', 'danger');
+      }
+    }
+
+    function formatCurrency(val) {
+      return '₹' + Number(val || 0).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+  </script>
 </body>
 </html>

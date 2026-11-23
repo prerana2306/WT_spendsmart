@@ -19,9 +19,10 @@ exports.getDashboardOverview = async (req, res, next) => {
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
-    // 1. All-time aggregate for total balance
-    const allTotals = await Transaction.aggregate([
-      { $match: { user: userId } },
+    // 1. Opening Balance = net of ALL transactions BEFORE this month
+    //    Rule: Money Left = Opening Balance + This Month Income − This Month Expenses
+    const priorTotals = await Transaction.aggregate([
+      { $match: { user: userId, date: { $lt: startOfMonth } } },
       {
         $group: {
           _id: '$type',
@@ -30,14 +31,14 @@ exports.getDashboardOverview = async (req, res, next) => {
       },
     ]);
 
-    let lifetimeIncome = 0;
-    let lifetimeExpenses = 0;
-    allTotals.forEach((t) => {
-      if (t._id === 'income') lifetimeIncome = t.total;
-      if (t._id === 'expense') lifetimeExpenses = t.total;
+    let priorIncome = 0;
+    let priorExpenses = 0;
+    priorTotals.forEach((t) => {
+      if (t._id === 'income') priorIncome = t.total;
+      if (t._id === 'expense') priorExpenses = t.total;
     });
-
-    const availableBalance = Math.max(0, lifetimeIncome - lifetimeExpenses);
+    // Opening balance is the net carried forward into this month (can be negative if overspent historically)
+    const openingBalance = priorIncome - priorExpenses;
 
     // 2. Current Month Totals
     const monthTotals = await Transaction.aggregate([
@@ -62,24 +63,70 @@ exports.getDashboardOverview = async (req, res, next) => {
       if (t._id === 'expense') monthExpenses = t.total;
     });
 
+    // Money Left = Opening Balance + This Month Income − This Month Expenses
+    // This is the actual spendable balance; we do NOT floor at 0 — a negative means overspent.
+    const moneyLeft = openingBalance + monthIncome - monthExpenses;
+
     // 3. Total Savings (All savings goal contributions)
+    //    Savings goal contributions are tracked SEPARATELY in SavingsGoal.currentAmount.
+    //    They are NOT deducted again from moneyLeft here to avoid double-counting.
     const goals = await SavingsGoal.find({ user: userId });
     const totalSavings = goals.reduce((acc, g) => acc + (g.currentAmount || 0), 0);
 
     // 4. Budget progress
+    //    Budget Used % = (Month Expenses / Monthly Budget) × 100
+    //    Budget Remaining = Monthly Budget − Month Expenses
     const budget = await Budget.findOne({ user: userId, month: currentMonthStr });
     const overallBudget = budget ? budget.overallLimit : 0;
-    const remainingBudget = Math.max(0, overallBudget - monthExpenses);
-    const budgetUsagePercent = overallBudget > 0 ? Math.min(100, Math.round((monthExpenses / overallBudget) * 100)) : 0;
+    const hasBudget = overallBudget > 0;
+
+    // Budget remaining can be negative (overspent); expose the raw value for display logic
+    const budgetRemaining = hasBudget ? overallBudget - monthExpenses : null;
+    const budgetRemainingDisplay = hasBudget ? Math.max(0, budgetRemaining) : 0;
+    const budgetUsagePercent = hasBudget
+      ? Math.min(100, Math.round((monthExpenses / overallBudget) * 100))
+      : null; // null = no budget set; display "—" on the frontend
 
     // 5. Daily Spending Limit
+    //    Safe Daily Amount = (Remaining Spendable Budget − Upcoming Committed Expenses) / Remaining Days
     const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     const currentDay = now.getDate();
     const remainingDays = Math.max(1, totalDaysInMonth - currentDay + 1);
 
+    // Upcoming committed expenses (unpaid reminders before month-end)
+    const upcomingRemindersForDaily = await Reminder.find({
+      user: userId,
+      dueDate: { $gte: now, $lte: endOfMonth },
+      isPaid: false,
+    });
+    const upcomingCommittedAmount = upcomingRemindersForDaily.reduce(
+      (acc, r) => acc + (r.amount || 0),
+      0
+    );
+
+    // Pool for daily discretionary spending:
+    // If a budget is set → use remaining budget (capped at 0) minus committed bills
+    // If no budget set → use remaining money left minus committed bills
+    let discretionaryPool;
+    if (hasBudget) {
+      discretionaryPool = Math.max(0, budgetRemaining - upcomingCommittedAmount);
+    } else {
+      // No budget: base pool on money left minus committed bills
+      discretionaryPool = Math.max(0, moneyLeft - upcomingCommittedAmount);
+    }
+    const dailySpendingLimit = remainingDays > 0 ? Math.round(discretionaryPool / remainingDays) : 0;
+
     // Today's spending
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    const endOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
 
     const todaySpendAgg = await Transaction.aggregate([
       {
@@ -93,9 +140,10 @@ exports.getDashboardOverview = async (req, res, next) => {
     ]);
     const todaySpent = todaySpendAgg.length > 0 ? todaySpendAgg[0].total : 0;
 
-    const baseBudgetPool = overallBudget > 0 ? remainingBudget : Math.max(0, monthIncome - monthExpenses);
-    const dailySpendingLimit = Math.round(baseBudgetPool / remainingDays);
-    const remainingDailyAllowance = Math.max(0, dailySpendingLimit - todaySpent);
+    // Remaining Today = Today's Spending Allowance − Today's Expenses
+    // Can be negative (over limit for today); we expose the raw value.
+    const remainingTodayRaw = dailySpendingLimit - todaySpent;
+    const remainingTodayDisplay = Math.max(0, remainingTodayRaw);
 
     // 6. Upcoming bill reminders
     const upcomingBills = await Reminder.find({
@@ -147,31 +195,50 @@ exports.getDashboardOverview = async (req, res, next) => {
       success: true,
       data: {
         summaryCards: {
-          availableBalance,
+          // moneyLeft is the accurate "Money Left" value
+          // = Opening Balance + Month Income − Month Expenses
+          moneyLeft,
+          // For backward compatibility, also expose as availableBalance
+          // but it now uses the CORRECT formula (not lifetime totals)
+          availableBalance: moneyLeft,
           totalIncome: monthIncome,
           totalExpenses: monthExpenses,
           totalSavings,
+          openingBalance,
+          // Metadata flags for UI conditional rendering
+          hasTransactions: monthIncome > 0 || monthExpenses > 0,
         },
         budget: {
           overallLimit: overallBudget,
           spent: monthExpenses,
-          remaining: remainingBudget,
+          // Expose raw remaining (may be negative for overspend detection)
+          remaining: budgetRemainingDisplay,
+          remainingRaw: budgetRemaining,
+          // null means no budget is set; frontend should show "No budget set"
           usagePercentage: budgetUsagePercent,
+          hasBudget,
           month: currentMonthStr,
+          isOverBudget: hasBudget && monthExpenses > overallBudget,
         },
         dailyLimit: {
           limit: dailySpendingLimit,
           spentToday: todaySpent,
-          remainingToday: remainingDailyAllowance,
+          remainingToday: remainingTodayDisplay,
+          remainingTodayRaw,
           remainingDays,
+          upcomingCommittedAmount,
+          discretionaryPool,
           isExceeded: todaySpent > dailySpendingLimit && dailySpendingLimit > 0,
+          hasDailyLimit: dailySpendingLimit > 0,
         },
         needsVsWants: {
           needsAmount,
           wantsAmount,
           totalExpenses: monthExpenses,
-          needsPercentage: monthExpenses > 0 ? Math.round((needsAmount / monthExpenses) * 100) : 0,
-          wantsPercentage: monthExpenses > 0 ? Math.round((wantsAmount / monthExpenses) * 100) : 0,
+          needsPercentage:
+            monthExpenses > 0 ? Math.round((needsAmount / monthExpenses) * 100) : 0,
+          wantsPercentage:
+            monthExpenses > 0 ? Math.round((wantsAmount / monthExpenses) * 100) : 0,
         },
         healthScore: healthData,
         recentTransactions,
@@ -383,6 +450,8 @@ exports.getDailySpendingLimit = async (req, res, next) => {
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
     const budget = await Budget.findOne({ user: userId, month: currentMonthStr });
+
+    // Current month expenses
     const monthExpensesAgg = await Transaction.aggregate([
       {
         $match: {
@@ -395,6 +464,33 @@ exports.getDailySpendingLimit = async (req, res, next) => {
     ]);
     const monthSpent = monthExpensesAgg.length > 0 ? monthExpensesAgg[0].total : 0;
 
+    // Current month income
+    const monthIncomeAgg = await Transaction.aggregate([
+      {
+        $match: {
+          user: req.user._id,
+          type: 'income',
+          date: { $gte: startOfMonth, $lte: endOfMonth },
+        },
+      },
+      { $group: { _id: null, total: { $sum: '$amount' } } },
+    ]);
+    const monthIncome = monthIncomeAgg.length > 0 ? monthIncomeAgg[0].total : 0;
+
+    // Opening balance (prior months' net)
+    const priorTotals = await Transaction.aggregate([
+      { $match: { user: req.user._id, date: { $lt: startOfMonth } } },
+      { $group: { _id: '$type', total: { $sum: '$amount' } } },
+    ]);
+    let priorIncome = 0;
+    let priorExpenses = 0;
+    priorTotals.forEach((t) => {
+      if (t._id === 'income') priorIncome = t.total;
+      if (t._id === 'expense') priorExpenses = t.total;
+    });
+    const openingBalance = priorIncome - priorExpenses;
+    const moneyLeft = openingBalance + monthIncome - monthSpent;
+
     // Upcoming essential expenses in remainder of month
     const upcomingReminders = await Reminder.find({
       user: userId,
@@ -404,19 +500,36 @@ exports.getDailySpendingLimit = async (req, res, next) => {
     const upcomingEssentialBills = upcomingReminders.reduce((acc, r) => acc + (r.amount || 0), 0);
 
     const overallLimit = budget ? budget.overallLimit : 0;
-    const remainingMonthBudget = Math.max(0, overallLimit - monthSpent);
+    const hasBudget = overallLimit > 0;
+
+    // Budget remaining for the month (raw, before deducting committed bills)
+    const remainingMonthBudget = hasBudget ? overallLimit - monthSpent : null;
 
     const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     const currentDay = now.getDate();
     const remainingDays = Math.max(1, totalDaysInMonth - currentDay + 1);
 
     // Net budget available for daily discretionary spend = remaining budget - upcoming committed bills
-    const discretionaryPool = Math.max(0, remainingMonthBudget - upcomingEssentialBills);
-    const dailyLimit = Math.round(discretionaryPool / remainingDays);
+    // If no budget set, fall back to money left minus upcoming bills
+    let discretionaryPool;
+    if (hasBudget) {
+      discretionaryPool = Math.max(0, remainingMonthBudget - upcomingEssentialBills);
+    } else {
+      discretionaryPool = Math.max(0, moneyLeft - upcomingEssentialBills);
+    }
+    const dailyLimit = remainingDays > 0 ? Math.round(discretionaryPool / remainingDays) : 0;
 
     // Today's actual spend
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    const endOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
 
     const todaySpendAgg = await Transaction.aggregate([
       {
@@ -430,20 +543,27 @@ exports.getDailySpendingLimit = async (req, res, next) => {
     ]);
     const spentToday = todaySpendAgg.length > 0 ? todaySpendAgg[0].total : 0;
 
+    // Remaining Today = Today's Allowance − Today's Expenses (raw value, can be negative)
+    const remainingTodayRaw = dailyLimit - spentToday;
+
     res.status(200).json({
       success: true,
       data: {
         dailyLimit,
         spentToday,
-        remainingToday: Math.max(0, dailyLimit - spentToday),
+        remainingToday: Math.max(0, remainingTodayRaw),
+        remainingTodayRaw,
         remainingDays,
         upcomingEssentialBills,
-        remainingMonthBudget,
+        discretionaryPool,
+        remainingMonthBudget: remainingMonthBudget !== null ? Math.max(0, remainingMonthBudget) : null,
         overallMonthBudget: overallLimit,
+        hasBudget,
         isOverLimit: spentToday > dailyLimit && dailyLimit > 0,
-        warning: spentToday > dailyLimit && dailyLimit > 0
-          ? `You have spent ₹${spentToday.toLocaleString()} today, exceeding your daily limit by ₹${(spentToday - dailyLimit).toLocaleString()}.`
-          : null,
+        warning:
+          spentToday > dailyLimit && dailyLimit > 0
+            ? `You have spent ₹${spentToday.toLocaleString('en-IN')} today, exceeding your daily limit by ₹${(spentToday - dailyLimit).toLocaleString('en-IN')}.`
+            : null,
       },
     });
   } catch (error) {

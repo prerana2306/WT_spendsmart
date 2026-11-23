@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overview — SpendSmart</title>
+  <title>Dashboard — SpendSmart</title>
+  <meta name="description" content="Your personal money dashboard. See how much you have, what you spent, and get smart tips to manage money better.">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/components.css">
@@ -15,50 +16,57 @@
   <div class="app-layout">
     <div class="sidebar-backdrop"></div>
 
-    <!-- Fixed Desktop Left Sidebar (240px) -->
+    <!-- Desktop Left Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo-icon">₹</div>
         <div class="brand-text">
           <h2>SpendSmart</h2>
-          <span>Student Fintech</span>
+          <span>Student Finance</span>
         </div>
       </div>
 
       <ul class="sidebar-menu">
-        <li class="menu-label">Main Navigation</li>
+        <!-- MY MONEY Group -->
+        <li class="menu-group-label">My Money</li>
         <li class="sidebar-item active">
-          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Overview</span></a>
+          <a href="/dashboard.html"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/transactions.html"><i data-lucide="receipt"></i> <span>Transactions</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/budgets.html"><i data-lucide="pie-chart"></i> <span>Budgets</span></a>
-        </li>
-        <li class="sidebar-item">
-          <a href="/analytics.html"><i data-lucide="bar-chart-3"></i> <span>Insights & Analytics</span></a>
+          <a href="/budgets.html"><i data-lucide="sliders"></i> <span>Budgets</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/goals.html"><i data-lucide="target"></i> <span>Savings Goals</span></a>
         </li>
+
+        <!-- SMART TOOLS Group -->
+        <li class="menu-group-label">Smart Tools</li>
         <li class="sidebar-item">
-          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Smart Assistant</span></a>
+          <a href="/analytics.html"><i data-lucide="activity"></i> <span>Money Insights</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/challenges.html"><i data-lucide="award"></i> <span>Challenges & Rewards</span></a>
+          <a href="/assistant.html"><i data-lucide="sparkles"></i> <span>Money Assistant</span></a>
+        </li>
+
+        <!-- STUDENT LIFE Group -->
+        <li class="menu-group-label">Student Life</li>
+        <li class="sidebar-item">
+          <a href="/challenges.html"><i data-lucide="award"></i> <span>Saving Challenges</span></a>
         </li>
         <li class="sidebar-item">
           <a href="/split-bills.html"><i data-lucide="users"></i> <span>Split Bills</span></a>
         </li>
         <li class="sidebar-item">
-          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Financial Calendar</span></a>
+          <a href="/calendar.html"><i data-lucide="calendar"></i> <span>Calendar & Reminders</span></a>
         </li>
       </ul>
 
       <div class="sidebar-footer">
         <div class="sidebar-item">
-          <a href="/profile.html"><i data-lucide="settings"></i> <span>Profile & Settings</span></a>
+          <a href="/profile.html"><i data-lucide="user"></i> <span>My Profile</span></a>
         </div>
         <div class="sidebar-item">
           <a href="javascript:void(0)" onclick="logout()"><i data-lucide="log-out"></i> <span>Logout</span></a>
@@ -68,23 +76,23 @@
 
     <!-- Main Content Wrapper -->
     <div class="main-wrapper">
-      <!-- Top Sticky Header -->
+      <!-- Top Header -->
       <header class="top-header">
         <div class="header-left">
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Open Navigation">
             <i data-lucide="menu"></i>
           </button>
           <div class="header-title-box">
-            <h1>Student Overview</h1>
+            <h1>Dashboard</h1>
             <p id="welcome-heading">Welcome back! Ready to make smart money moves?</p>
           </div>
         </div>
 
         <div class="header-right">
-          <!-- Search input -->
+          <!-- Search -->
           <div class="header-search">
             <i data-lucide="search"></i>
-            <input type="text" placeholder="Search transactions, bills..." onclick="window.location.href='/transactions.html'">
+            <input type="text" placeholder="Search transactions..." onclick="window.location.href='/transactions.html'">
           </div>
 
           <!-- Notification Dropdown -->
@@ -102,127 +110,145 @@
             </div>
           </div>
 
-          <!-- Theme Switcher -->
+          <!-- Theme Toggle -->
           <button class="header-action-btn" id="theme-toggle-btn" title="Switch Theme">
             <i data-lucide="moon" id="theme-icon"></i>
           </button>
 
-          <!-- User Profile Pill -->
+          <!-- User Profile -->
           <a href="/profile.html" class="user-profile-pill">
-            <div class="user-avatar-circle">A</div>
-            <span class="user-name-label">Student</span>
+            <div class="user-avatar-circle" id="user-avatar-initials">S</div>
+            <span class="user-name-label" id="user-name-display">Student</span>
           </a>
         </div>
       </header>
 
-      <!-- Dashboard Body Content -->
+      <!-- Dashboard Body -->
       <main class="page-body">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner" id="welcome-banner">
+          <div class="welcome-text">
+            <h2 id="welcome-banner-text">Hey! Let's manage your money smartly. 👋</h2>
+            <p id="welcome-banner-sub">Here's what's happening with your money this month.</p>
+          </div>
+          <div class="welcome-emoji" aria-hidden="true">💰</div>
+        </div>
+
         <!-- 4 Summary Financial Cards -->
         <section class="summary-grid">
           <div class="summary-card balance">
             <div class="summary-top">
-              <span class="summary-label">Available Balance</span>
+              <span class="summary-label">Money Left</span>
               <div class="summary-icon-box"><i data-lucide="wallet"></i></div>
             </div>
             <div class="summary-amount" id="card-available-balance">₹0</div>
-            <div class="summary-subtext" style="color: var(--sage-green);">Live net disposable funds</div>
+            <div class="summary-subtext" style="color: var(--sage-green);">What you can still spend</div>
           </div>
 
           <div class="summary-card income">
             <div class="summary-top">
-              <span class="summary-label">Total Income (This Month)</span>
+              <span class="summary-label">Money Received This Month</span>
               <div class="summary-icon-box"><i data-lucide="arrow-down-left"></i></div>
             </div>
             <div class="summary-amount" id="card-total-income">₹0</div>
-            <div class="summary-subtext">Allowance & gig earnings</div>
+            <div class="summary-subtext">Allowance, salary & other income</div>
           </div>
 
           <div class="summary-card expense">
             <div class="summary-top">
-              <span class="summary-label">Total Expenses (This Month)</span>
+              <span class="summary-label">Money Spent This Month</span>
               <div class="summary-icon-box"><i data-lucide="arrow-up-right"></i></div>
             </div>
             <div class="summary-amount" id="card-total-expenses">₹0</div>
-            <div class="summary-subtext">Needs vs Wants classified</div>
+            <div class="summary-subtext">Your total spending this month</div>
           </div>
 
           <div class="summary-card savings">
             <div class="summary-top">
-              <span class="summary-label">Total Savings</span>
+              <span class="summary-label">Money Saved</span>
               <div class="summary-icon-box"><i data-lucide="piggy-bank"></i></div>
             </div>
             <div class="summary-amount" id="card-total-savings">₹0</div>
-            <div class="summary-subtext" style="color: #9A7720;">Accumulated goal funds</div>
+            <div class="summary-subtext" style="color: #9A7720;">Saved towards your goals</div>
           </div>
         </section>
 
-        <!-- Quick Action Buttons Bar -->
+        <!-- Quick Action Buttons -->
         <div class="quick-actions-bar">
-          <button class="action-pill-btn primary" onclick="openNewTransactionModal()">
+          <button class="action-pill-btn primary" onclick="openNewTransactionModal()" id="btn-add-transaction">
             <i data-lucide="plus"></i> Add Transaction
           </button>
-          <button class="action-pill-btn" onclick="openModal('quick-purchase-modal')">
+          <button class="action-pill-btn" onclick="openAddIncomeModal()" id="btn-add-income">
+            <i data-lucide="arrow-down-left"></i> Add Income
+          </button>
+          <button class="action-pill-btn" onclick="openModal('quick-purchase-modal')" id="btn-can-afford">
             <i data-lucide="help-circle"></i> Can I Afford This?
           </button>
-          <button class="action-pill-btn" onclick="window.location.href='/budgets.html'">
+          <button class="action-pill-btn" onclick="window.location.href='/budgets.html'" id="btn-set-budget">
             <i data-lucide="sliders"></i> Set Budget
           </button>
-          <button class="action-pill-btn" onclick="window.location.href='/goals.html'">
-            <i data-lucide="target"></i> Create Savings Goal
+          <button class="action-pill-btn" onclick="window.location.href='/goals.html'" id="btn-add-goal">
+            <i data-lucide="target"></i> Add Savings Goal
           </button>
-          <button class="action-pill-btn" onclick="window.location.href='/split-bills.html'">
-            <i data-lucide="users"></i> Split Bill with Friends
+          <button class="action-pill-btn" onclick="window.location.href='/split-bills.html'" id="btn-split-bill">
+            <i data-lucide="users"></i> Split a Bill
           </button>
         </div>
+
+        <!-- Student Insights Section -->
+        <section class="insights-section" id="insights-section" style="display: none;">
+          <div class="insights-grid" id="insights-grid"></div>
+        </section>
 
         <!-- Dashboard Multi-Column Grid -->
         <div class="dashboard-grid">
           <!-- Left Column -->
           <div class="grid-col-left">
-            <!-- Daily Spending Limit Guardrail Card -->
+            <!-- Daily Spending Card -->
             <div class="daily-limit-card">
               <div class="daily-limit-header">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <i data-lucide="compass" style="color: var(--pine-green);"></i>
-                  <h3 style="font-weight: 700;">Smart Daily Spending Limit</h3>
+                  <i data-lucide="compass" style="color: var(--pine-green); width: 18px; height: 18px;"></i>
+                  <h3>You Can Spend Today</h3>
                 </div>
                 <div id="daily-limit-warning"></div>
               </div>
               <div class="daily-limit-numbers">
                 <div>
-                  <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary);">Safe Daily Allowance</div>
+                  <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary); margin-bottom: 2px;">Safe Daily Amount</div>
                   <div class="daily-allowance-val" id="daily-limit-amount">₹0</div>
-                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
-                    Remaining Today: <strong id="daily-remaining-amount" style="color: var(--sage-green);">₹0</strong>
+                  <div class="daily-limit-hint">
+                    Remaining today: <strong id="daily-remaining-amount" style="color: var(--sage-green);">₹0</strong>
                   </div>
                 </div>
-                <div style="margin-left: auto; text-align: right;">
-                  <div style="font-size: 11px; color: var(--text-secondary);">Spent Today: <strong id="daily-spent-amount">₹0</strong></div>
-                  <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;" id="daily-remaining-days">20 days left in month</div>
+                <div style="text-align: right;">
+                  <div style="font-size: 11.5px; color: var(--text-secondary);">Spent today: <strong id="daily-spent-amount">₹0</strong></div>
+                  <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;" id="daily-remaining-days">— days left this month</div>
                 </div>
               </div>
             </div>
 
-            <!-- Income vs Expense Chart Card -->
+            <!-- Income vs Expense Chart -->
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h3 class="card-title"><i data-lucide="bar-chart-2"></i> Cash Flow & Budget Pacing</h3>
-                  <div class="card-subtitle">Comparing income and expenses across months</div>
+                  <h3 class="card-title"><i data-lucide="bar-chart-2"></i> Income vs Spending</h3>
+                  <div class="card-subtitle">See how your money flows month by month</div>
                 </div>
-                <span class="badge badge-info">Monthly</span>
+                <span class="badge badge-info">Last 6 Months</span>
               </div>
               <div style="height: 260px; position: relative;">
                 <canvas id="incomeExpenseChart"></canvas>
               </div>
             </div>
 
-            <!-- Recent Transactions Table Card -->
+            <!-- Recent Transactions -->
             <div class="card">
               <div class="card-header">
                 <div>
                   <h3 class="card-title"><i data-lucide="clock"></i> Recent Transactions</h3>
-                  <div class="card-subtitle">Real-time records from your MongoDB storage</div>
+                  <div class="card-subtitle">Your latest money activity</div>
                 </div>
                 <a href="/transactions.html" class="btn btn-sm btn-outline">View All</a>
               </div>
@@ -232,11 +258,11 @@
 
           <!-- Right Column -->
           <div class="grid-col-right">
-            <!-- Financial Health Score Card -->
+            <!-- Money Health Score -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i data-lucide="activity"></i> Financial Health Score</h3>
-                <a href="/analytics.html" style="font-size: 12px; font-weight: 600;">Details</a>
+                <h3 class="card-title"><i data-lucide="activity"></i> Your Money Health</h3>
+                <a href="/analytics.html" style="font-size: 12px; font-weight: 600;">See Details</a>
               </div>
               <div class="health-score-box">
                 <div class="health-circle-badge" id="health-circle-badge">
@@ -244,32 +270,32 @@
                   <span>/ 100</span>
                 </div>
                 <div>
-                  <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" id="health-score-category">Calculating...</div>
-                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;" id="health-score-tip">Log transactions to improve your score.</div>
+                  <div style="font-size: 15px; font-weight: 800; color: var(--text-primary);" id="health-score-category">Calculating...</div>
+                  <div style="font-size: 12.5px; color: var(--text-secondary); margin-top: 4px;" id="health-score-tip">Add transactions to see your score.</div>
                 </div>
               </div>
 
-              <!-- Monthly Budget Progress Bar -->
+              <!-- Monthly Budget Progress -->
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; margin-bottom: 6px;">
-                  <span>Monthly Budget Progress</span>
-                  <span id="budget-percentage-label">0% utilized</span>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; margin-bottom: 7px;">
+                  <span>Budget Used This Month</span>
+                  <span id="budget-percentage-label">0% used</span>
                 </div>
                 <div class="progress-bar-bg" style="height: 10px; margin-bottom: 8px;">
                   <div class="progress-bar-fill" id="budget-progress-fill" style="width: 0%;"></div>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
                   <span>Spent: <strong id="budget-spent-val">₹0</strong></span>
-                  <span>Remaining: <strong id="budget-remaining-val" style="color: var(--sage-green);">₹0</strong></span>
+                  <span>Left: <strong id="budget-remaining-val" style="color: var(--sage-green);">₹0</strong></span>
                   <span>Limit: <strong id="budget-total-limit">₹0</strong></span>
                 </div>
               </div>
             </div>
 
-            <!-- Expense Category Doughnut Chart Card -->
+            <!-- Where Your Money Goes -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i data-lucide="pie-chart"></i> Expenses by Category</h3>
+                <h3 class="card-title"><i data-lucide="pie-chart"></i> Where Your Money Goes</h3>
               </div>
               <div style="height: 220px; position: relative;">
                 <canvas id="categoryPieChart"></canvas>
@@ -279,16 +305,16 @@
             <!-- Savings Goals Preview -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i data-lucide="target"></i> Active Savings Goals</h3>
-                <a href="/goals.html" class="btn btn-sm btn-outline">+ Goal</a>
+                <h3 class="card-title"><i data-lucide="target"></i> Your Savings Goals</h3>
+                <a href="/goals.html" class="btn btn-sm btn-outline">+ New Goal</a>
               </div>
               <div id="goals-preview-list"></div>
             </div>
 
-            <!-- Upcoming Bill Reminders -->
+            <!-- Upcoming Reminders -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><i data-lucide="calendar"></i> Upcoming Due Dates</h3>
+                <h3 class="card-title"><i data-lucide="calendar"></i> Coming Up</h3>
                 <a href="/calendar.html" style="font-size: 12px; font-weight: 600;">Calendar</a>
               </div>
               <div id="upcoming-bills-list"></div>
@@ -298,78 +324,82 @@
       </main>
     </div>
 
-    <!-- Mobile Bottom Navigation Bar -->
+    <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
       <a href="/dashboard.html" class="mobile-nav-item active"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
-      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Expenses</span></a>
+      <a href="/transactions.html" class="mobile-nav-item"><i data-lucide="receipt"></i><span>Spending</span></a>
       <a href="/assistant.html" class="mobile-nav-item"><i data-lucide="sparkles"></i><span>Assistant</span></a>
-      <a href="/split-bills.html" class="mobile-nav-item"><i data-lucide="users"></i><span>Split</span></a>
-      <a href="/calendar.html" class="mobile-nav-item"><i data-lucide="calendar"></i><span>Calendar</span></a>
+      <a href="/goals.html" class="mobile-nav-item"><i data-lucide="target"></i><span>Goals</span></a>
+      <a href="/profile.html" class="mobile-nav-item"><i data-lucide="user"></i><span>Profile</span></a>
     </nav>
   </div>
 
-  <!-- Quick Transaction Modal -->
+  <!-- Add Transaction Modal -->
   <div class="modal-overlay" id="add-tx-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="tx-modal-title">Record Transaction</h3>
+        <h3 id="tx-modal-title">Add a Transaction</h3>
         <button class="modal-close-btn" onclick="closeModal('add-tx-modal')"><i data-lucide="x"></i></button>
       </div>
       <form id="add-tx-form">
         <div class="modal-body">
+          <!-- Type Toggle -->
           <div class="form-group">
-            <label class="form-label">Type</label>
+            <label class="form-label">What type of transaction?</label>
             <select id="tx-type" class="form-select">
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
+              <option value="expense">💸 Expense (I spent money)</option>
+              <option value="income">💰 Income (I received money)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Amount (₹)</label>
+            <label class="form-label">How much? (₹)</label>
             <input type="number" step="0.01" id="tx-amount" class="form-input" placeholder="e.g. 250" required>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Description</label>
-            <input type="text" id="tx-description" class="form-input" placeholder="e.g. Cafeteria lunch / Books recharge" required>
+            <label class="form-label">What was it for?</label>
+            <input type="text" id="tx-description" class="form-input" placeholder="e.g. Canteen lunch, Metro card, Books..." required>
           </div>
 
           <div class="form-group">
             <label class="form-label">Category</label>
             <select id="tx-category" class="form-select">
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Shopping">Shopping</option>
-              <option value="Education">Education</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Bills">Bills</option>
-              <option value="Healthcare">Healthcare</option>
-              <option value="Hostel">Hostel</option>
-              <option value="Personal Care">Personal Care</option>
-              <option value="Allowance">Allowance</option>
-              <option value="Salary">Salary</option>
-              <option value="Freelance">Freelance</option>
-              <option value="Other">Other</option>
+              <option value="Food">🍱 Food</option>
+              <option value="Transport">🚌 Transport</option>
+              <option value="Shopping">🛍️ Shopping</option>
+              <option value="Education">📚 Education</option>
+              <option value="Entertainment">🎬 Entertainment</option>
+              <option value="Bills">🧾 Bills</option>
+              <option value="Healthcare">💊 Healthcare</option>
+              <option value="Hostel">🏠 Hostel / Rent</option>
+              <option value="Personal Care">🧴 Personal Care</option>
+              <option value="Allowance">👛 Allowance</option>
+              <option value="Salary">💼 Salary / Part-time</option>
+              <option value="Freelance">💻 Freelance</option>
+              <option value="Other">📌 Other</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Needs vs Wants</label>
+            <label class="form-label">Is this a Need or a Want?
+              <span title="Needs are essentials like food and rent. Wants are optional like shopping or entertainment." style="cursor: help; color: var(--text-secondary);">ℹ️</span>
+            </label>
             <select id="tx-classification" class="form-select">
-              <option value="need">Need (Essential)</option>
-              <option value="want">Want (Discretionary)</option>
+              <option value="need">✅ Need — Something essential</option>
+              <option value="want">🛒 Want — Something optional</option>
             </select>
+            <div class="form-hint">This helps track your essential vs non-essential spending.</div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Payment Method</label>
+            <label class="form-label">How did you pay?</label>
             <select id="tx-payment-method" class="form-select">
-              <option value="UPI">UPI (GPay / PhonePe / Paytm)</option>
-              <option value="Cash">Cash</option>
-              <option value="Debit Card">Debit Card</option>
-              <option value="Credit Card">Credit Card</option>
-              <option value="Net Banking">Net Banking</option>
+              <option value="UPI">📱 UPI (GPay / PhonePe / Paytm)</option>
+              <option value="Cash">💵 Cash</option>
+              <option value="Debit Card">💳 Debit Card</option>
+              <option value="Credit Card">💳 Credit Card</option>
+              <option value="Net Banking">🏦 Net Banking</option>
             </select>
           </div>
 
@@ -380,7 +410,7 @@
 
           <div class="form-group">
             <label class="form-label">Notes (Optional)</label>
-            <input type="text" id="tx-notes" class="form-input" placeholder="Any details or tags...">
+            <input type="text" id="tx-notes" class="form-input" placeholder="Any extra details...">
           </div>
         </div>
 
@@ -392,26 +422,26 @@
     </div>
   </div>
 
-  <!-- Quick Purchase Affordability Modal -->
+  <!-- Can I Afford This? Modal -->
   <div class="modal-overlay" id="quick-purchase-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Smart Purchase Affordability Check</h3>
+        <h3>🛒 Can I Afford This?</h3>
         <button class="modal-close-btn" onclick="closeModal('quick-purchase-modal')"><i data-lucide="x"></i></button>
       </div>
       <form id="quick-purchase-form">
         <div class="modal-body">
-          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
-            Check whether you can afford an impulse purchase right now without violating your budget or missing upcoming bill payments.
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
+            Thinking of buying something? Enter the details and we'll tell you if you can afford it right now.
           </p>
 
           <div class="form-group">
-            <label class="form-label">Item / Product Name</label>
-            <input type="text" id="purchase-item-name" class="form-input" placeholder="e.g. Wireless Earbuds" required>
+            <label class="form-label">What do you want to buy?</label>
+            <input type="text" id="purchase-item-name" class="form-input" placeholder="e.g. Wireless earbuds, New shoes..." required>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Price (INR ₹)</label>
+            <label class="form-label">How much does it cost? (₹)</label>
             <input type="number" id="purchase-item-price" class="form-input" placeholder="e.g. 2499" required>
           </div>
 
@@ -420,7 +450,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('quick-purchase-modal')">Close</button>
-          <button type="submit" class="btn btn-primary btn-sm">Calculate Affordability</button>
+          <button type="submit" class="btn btn-primary btn-sm">Check Affordability</button>
         </div>
       </form>
     </div>
@@ -432,9 +462,18 @@
   <script src="/js/api.js"></script>
   <script src="/js/dashboard.js"></script>
   <script>
-    // Set default date to today for transaction modal
+    // Set default date to today
     document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
+
     function openNewTransactionModal() {
+      document.getElementById('tx-type').value = 'expense';
+      document.getElementById('tx-modal-title').textContent = 'Add a Transaction';
+      openModal('add-tx-modal');
+    }
+
+    function openAddIncomeModal() {
+      document.getElementById('tx-type').value = 'income';
+      document.getElementById('tx-modal-title').textContent = '💰 Add Income';
       openModal('add-tx-modal');
     }
   </script>
